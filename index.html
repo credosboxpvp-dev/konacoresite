@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ekibimiz - Kış Teması</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0; padding: 0;
@@ -22,72 +22,71 @@
         }
         @keyframes fall { 0% { top: -10%; } 100% { top: 100%; } }
 
-        /* Ekip Bölümü */
+        /* Konteynır */
         .container {
             display: flex; justify-content: center; flex-wrap: wrap;
             padding: 50px; gap: 40px;
         }
         
+        /* Kart Tasarımı */
         .team-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(15, 32, 58, 0.8);
             backdrop-filter: blur(15px);
             border-radius: 30px;
             padding: 40px;
-            width: 320px;
+            width: 300px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
         }
 
         .team-card:hover {
-            transform: translateY(-20px) scale(1.02);
-            border-color: #00d4ff;
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+            transform: translateY(-15px);
+            border-color: #4CAF50;
+            box-shadow: 0 20px 40px rgba(76, 175, 80, 0.3);
         }
 
         /* Profil Resimleri */
-        .avatar-container {
-            width: 150px; height: 150px;
+        .avatar-box {
+            width: 160px; height: 160px;
             margin: 0 auto 25px;
             border-radius: 50%;
-            padding: 5px;
-            background: linear-gradient(45deg, #00d4ff, #004d7a);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            overflow: hidden;
+            border: 4px solid #1a1a1a;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
 
-        .avatar-img {
+        .avatar-box img {
             width: 100%; height: 100%;
-            border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #051937;
         }
 
-        h1 { text-align: center; margin-top: 60px; font-size: 3.5em; font-weight: 600; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        h3 { font-size: 1.8em; margin: 10px 0; color: #00d4ff; letter-spacing: 1px; }
-        p { opacity: 0.7; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { text-align: center; margin-top: 60px; font-size: 3em; letter-spacing: 2px; }
+        h3 { font-size: 1.6em; margin: 10px 0; color: #4CAF50; } /* Yeşil isimler */
+        p { opacity: 0.8; font-size: 0.9em; color: #ccc; }
 
     </style>
 </head>
 <body>
 
-    <h1>❄️ EKİBİMİZ</h1>
+    <h1>❄️ Ekibimiz</h1>
 
     <div class="container">
         <div class="team-card">
-            <div class="avatar-container">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=jujustu" alt="jujustukaisen31" class="avatar-img">
+            <div class="avatar-box">
+                <img src="images.jpg" alt="jujustukaisen31">
             </div>
             <h3>jujustukaisen31</h3>
-            <p>Developer / Lead</p>
+            <p>Ekip Üyesi / Geliştirici</p>
         </div>
 
         <div class="team-card">
-            <div class="avatar-container">
-                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=curse" alt="curse_prime64" class="avatar-img">
+            <div class="avatar-box">
+                <img src="image_859c31.jpg" alt="curse_prime64">
             </div>
             <h3>curse_prime64</h3>
-            <p>Yönetici / Admin</p>
+            <p>Ekip Üyesi / Yönetici</p>
         </div>
     </div>
 
@@ -97,9 +96,8 @@
             snowflake.classList.add('snowflake');
             snowflake.innerHTML = '❄';
             snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 3 + 4 + 's';
+            snowflake.style.animationDuration = Math.random() * 3 + 4s;
             snowflake.style.opacity = Math.random();
-            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
             document.body.appendChild(snowflake);
             setTimeout(() => snowflake.remove(), 7000);
         }
