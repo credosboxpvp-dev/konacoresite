@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dijital Mağaza - Ödeme Paneli</title>
+    <title>Ekibimiz - Kış Teması</title>
     <style>
         body {
             margin: 0; padding: 0;
-            background: linear-gradient(180deg, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+            background: linear-gradient(180deg, #051937, #004d7a, #008793);
             background-attachment: fixed;
             font-family: 'Poppins', sans-serif;
             color: white; overflow-x: hidden; min-height: 100vh;
@@ -20,72 +20,64 @@
         }
         @keyframes fall { 0% { top: -10%; } 100% { top: 100%; } }
 
-        /* Ürün Kartları */
-        .container { display: flex; justify-content: center; flex-wrap: wrap; padding: 50px; gap: 25px; }
-        .card {
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
-            border-radius: 20px; padding: 30px; width: 280px; text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3); transition: 0.3s;
+        /* Ekip Bölümü */
+        .container {
+            display: flex; justify-content: center; flex-wrap: wrap;
+            padding: 50px; gap: 30px;
         }
-        .card:hover { transform: scale(1.05); border-color: #a8eb12; }
         
-        button {
-            background: #a8eb12; border: none; padding: 12px 25px;
-            border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        .team-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            width: 300px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: 0.4s;
         }
-        button:hover { background: #fff; transform: translateY(-3px); }
 
-        /* Ödeme Penceresi (Modal) */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); display: none; justify-content: center;
-            align-items: center; z-index: 10000;
+        .team-card:hover {
+            transform: translateY(-15px);
+            border-color: #a8eb12;
+            background: rgba(255, 255, 255, 0.2);
         }
-        .payment-box {
-            background: #fff; color: #333; padding: 30px; border-radius: 20px;
-            width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+        .avatar {
+            width: 100px; height: 100px;
+            background: #fff; border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5em; color: #051937;
         }
-        .payment-box input {
-            width: 90%; padding: 15px; margin: 15px 0; border: 2px solid #ddd;
-            border-radius: 10px; font-size: 1.1em; letter-spacing: 2px;
-        }
-        .close-btn { margin-top: 10px; color: red; cursor: pointer; display: block; }
+
+        h1 { text-align: center; margin-top: 60px; font-size: 3em; text-shadow: 0 0 20px #000; }
+        h3 { font-size: 1.5em; margin: 10px 0; color: #a8eb12; }
+        p { opacity: 0.8; }
+
     </style>
 </head>
 <body>
 
-    <h1 style="text-align: center; margin-top: 50px;">❄️ Kış Özel Mağazası</h1>
+    <h1>❄️ Ekibimiz</h1>
 
     <div class="container">
-        <div class="card">
-            <h3>Valorant VP</h3>
-            <p>Anında Teslimat</p>
-            <button onclick="openPayment('Valorant VP')">Satın Al</button>
+        <div class="team-card">
+            <div class="avatar">👤</div>
+            <h3>jujustukaisen31</h3>
+            <p>Ekip Üyesi / Geliştirici</p>
         </div>
-        <div class="card">
-            <h3>Minecraft Hesap</h3>
-            <p>Erişim Garantili</p>
-            <button onclick="openPayment('Minecraft')">Satın Al</button>
-        </div>
-        <div class="card">
-            <h3>Robux</h3>
-            <p>%20 İndirimli</p>
-            <button onclick="openPayment('Robux')">Satın Al</button>
-        </div>
-    </div>
 
-    <div class="modal-overlay" id="paymentModal">
-        <div class="payment-box">
-            <h2 id="productTitle">Ödeme Yap</h2>
-            <p>Lütfen 16 haneli kart numaranızı girin:</p>
-            <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
-            <button onclick="processPayment()" style="width: 100%; background: #0074D9; color: white;">Ödemeyi Tamamla</button>
-            <span class="close-btn" onclick="closePayment()">Vazgeç</span>
+        <div class="team-card">
+            <div class="avatar">👤</div>
+            <h3>curse_prime64</h3>
+            <p>Ekip Üyesi / Yönetici</p>
         </div>
     </div>
 
     <script>
-        // Kar yağdırma
+        // Kar yağdırma sistemi
         function createSnowflake() {
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
@@ -93,44 +85,11 @@
             snowflake.style.left = Math.random() * 100 + 'vw';
             snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
             snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
             document.body.appendChild(snowflake);
             setTimeout(() => snowflake.remove(), 5000);
         }
         setInterval(createSnowflake, 100);
-
-        // Modal Fonksiyonları
-        function openPayment(product) {
-            document.getElementById('productTitle').innerText = product + " Ödemesi";
-            document.getElementById('paymentModal').style.display = 'flex';
-        }
-
-        function closePayment() {
-            document.getElementById('paymentModal').style.display = 'none';
-            document.getElementById('cardNumber').value = "";
-        }
-
-        // Kart numarası formatlama (4 karakterde bir boşluk)
-        document.getElementById('cardNumber').addEventListener('input', function (e) {
-            let target = e.target;
-            let position = target.selectionEnd;
-            let length = target.value.length;
-            
-            target.value = target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
-            
-            if (position !== length) {
-               target.selectionStart = target.selectionEnd = position;
-            }
-        });
-
-        function processPayment() {
-            const cardValue = document.getElementById('cardNumber').value.replace(/\s/g, '');
-            if(cardValue.length < 16) {
-                alert("Lütfen 16 haneli kart numaranızı eksiksiz girin!");
-            } else {
-                alert("Ödeme başarıyla alındı! (Bu bir demodur)");
-                closePayment();
-            }
-        }
     </script>
 </body>
 </html>
