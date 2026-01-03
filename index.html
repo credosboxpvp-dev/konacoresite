@@ -3,87 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ekibimiz</title>
+    <title>911 Carrera | Look At Me 2.0</title>
     <style>
-        body {
-            margin: 0; padding: 0;
-            background: linear-gradient(180deg, #051937, #004d7a, #002147);
-            background-attachment: fixed;
-            font-family: 'Poppins', sans-serif;
-            color: white; overflow-x: hidden; min-height: 100vh;
-        }
-
-        .snowflake {
-            color: #fff; position: fixed; top: -10%; z-index: 9999;
-            user-select: none; animation: fall linear infinite;
-        }
-        @keyframes fall { 0% { top: -10%; } 100% { top: 100%; } }
-
-        .container {
-            display: flex; justify-content: center; flex-wrap: wrap;
-            padding: 50px; gap: 40px;
-        }
-        
-        .team-card {
-            background: rgba(15, 32, 58, 0.85);
-            backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: 40px;
-            width: 300px;
-            text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .avatar-box {
-            width: 160px; height: 160px;
-            margin: 0 auto 25px;
-            border-radius: 50%;
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            border: 4px solid #1a1a1a;
+            background-color: #000;
+            font-family: 'Arial', sans-serif;
         }
 
-        .avatar-box img {
-            width: 100%; height: 100%;
-            object-fit: cover;
+        /* Arka Plan Görseli - 911 Carrera */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            filter: brightness(0.6);
+            z-index: -1;
         }
 
-        h1 { text-align: center; margin-top: 60px; font-size: 3em; }
-        h3 { font-size: 1.6em; margin: 10px 0; color: #a8eb12; }
+        /* Kar Tanesi Efekti */
+        .snowflake {
+            color: #fff;
+            font-size: 1.2em;
+            position: fixed;
+            top: -10%;
+            z-index: 9999;
+            user-select: none;
+            cursor: default;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { top: -10%; transform: translateX(0); }
+            100% { top: 100%; transform: translateX(20px); }
+        }
+
+        /* Yazı Alanı */
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            color: white;
+            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        h1 { font-size: 4em; margin: 0; letter-spacing: 5px; }
+        p { font-size: 1.5em; opacity: 0.8; }
+
+        /* Müzik Çalar (Gizli veya Şık) */
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 10px;
+            border-radius: 50px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>❄️ Ekibimiz</h1>
+    <div class="background"></div>
 
-    <div class="container">
-        <div class="team-card">
-            <div class="avatar-box">
-                <img src="images.jpg" alt="jujustukaisen31">
-            </div>
-            <h3>jujustukaisen31</h3>
-            <p>Ekip Üyesi</p>
-        </div>
+    <div class="content">
+        <h1>911 CARRERA</h1>
+        <p>Look At Me 2.0</p>
+    </div>
 
-        <div class="team-card">
-            <div class="avatar-box">
-                <img src="image_859c31.jpg" alt="curse_prime64">
-            </div>
-            <h3>curse_prime64</h3>
-            <p>Ekip Üyesi</p>
-        </div>
+    <div class="audio-player">
+        <audio controls autoplay loop>
+            <source src="music.mp3" type="audio/mpeg">
+            Tarayıcınız müzik çalmayı desteklemiyor.
+        </audio>
     </div>
 
     <script>
+        // Kar Yağdırma Fonksiyonu
         function createSnowflake() {
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
             snowflake.innerHTML = '❄';
             snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 3 + 4 + 's';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
             document.body.appendChild(snowflake);
-            setTimeout(() => snowflake.remove(), 7000);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
         }
-        setInterval(createSnowflake, 150);
+        setInterval(createSnowflake, 50);
+
+        // Kullanıcı etkileşimi olmadan bazı tarayıcılar müziği otomatik başlatmaz.
+        // Ekrana tıklandığında müziği başlatma garantisi:
+        document.body.addEventListener('click', function() {
+            const audio = document.querySelector('audio');
+            audio.play();
+        }, { once: true });
     </script>
 </body>
 </html>
