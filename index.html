@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ekibimiz - Kış Teması</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0; padding: 0;
-            background: linear-gradient(180deg, #051937, #004d7a, #008793);
+            background: linear-gradient(180deg, #051937, #004d7a, #002147);
             background-attachment: fixed;
             font-family: 'Poppins', sans-serif;
             color: white; overflow-x: hidden; min-height: 100vh;
@@ -17,79 +18,92 @@
         .snowflake {
             color: #fff; position: fixed; top: -10%; z-index: 9999;
             user-select: none; animation: fall linear infinite;
+            pointer-events: none;
         }
         @keyframes fall { 0% { top: -10%; } 100% { top: 100%; } }
 
         /* Ekip Bölümü */
         .container {
             display: flex; justify-content: center; flex-wrap: wrap;
-            padding: 50px; gap: 30px;
+            padding: 50px; gap: 40px;
         }
         
         .team-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
-            border-radius: 25px;
+            border-radius: 30px;
             padding: 40px;
-            width: 300px;
+            width: 320px;
             text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: 0.4s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .team-card:hover {
-            transform: translateY(-15px);
-            border-color: #a8eb12;
-            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-20px) scale(1.02);
+            border-color: #00d4ff;
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
         }
 
-        .avatar {
-            width: 100px; height: 100px;
-            background: #fff; border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2.5em; color: #051937;
+        /* Profil Resimleri */
+        .avatar-container {
+            width: 150px; height: 150px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(45deg, #00d4ff, #004d7a);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
-        h1 { text-align: center; margin-top: 60px; font-size: 3em; text-shadow: 0 0 20px #000; }
-        h3 { font-size: 1.5em; margin: 10px 0; color: #a8eb12; }
-        p { opacity: 0.8; }
+        .avatar-img {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #051937;
+        }
+
+        h1 { text-align: center; margin-top: 60px; font-size: 3.5em; font-weight: 600; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        h3 { font-size: 1.8em; margin: 10px 0; color: #00d4ff; letter-spacing: 1px; }
+        p { opacity: 0.7; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
 
     </style>
 </head>
 <body>
 
-    <h1>❄️ Ekibimiz</h1>
+    <h1>❄️ EKİBİMİZ</h1>
 
     <div class="container">
         <div class="team-card">
-            <div class="avatar">👤</div>
+            <div class="avatar-container">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=jujustu" alt="jujustukaisen31" class="avatar-img">
+            </div>
             <h3>jujustukaisen31</h3>
-            <p>Ekip Üyesi / Geliştirici</p>
+            <p>Developer / Lead</p>
         </div>
 
         <div class="team-card">
-            <div class="avatar">👤</div>
+            <div class="avatar-container">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=curse" alt="curse_prime64" class="avatar-img">
+            </div>
             <h3>curse_prime64</h3>
-            <p>Ekip Üyesi / Yönetici</p>
+            <p>Yönetici / Admin</p>
         </div>
     </div>
 
     <script>
-        // Kar yağdırma sistemi
         function createSnowflake() {
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
             snowflake.innerHTML = '❄';
             snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.animationDuration = Math.random() * 3 + 4 + 's';
             snowflake.style.opacity = Math.random();
             snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
             document.body.appendChild(snowflake);
-            setTimeout(() => snowflake.remove(), 5000);
+            setTimeout(() => snowflake.remove(), 7000);
         }
-        setInterval(createSnowflake, 100);
+        setInterval(createSnowflake, 150);
     </script>
 </body>
 </html>
