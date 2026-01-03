@@ -3,101 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>911 Carrera | Look At Me 2.0</title>
+    <title>911 Carrera</title>
     <style>
         body, html {
             margin: 0; padding: 0;
             width: 100%; height: 100%;
             overflow: hidden; background-color: #000;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
+            cursor: crosshair;
         }
 
-        /* Porsche Arka Planı */
-        .bg-image {
+        /* Arka Plan Görseli */
+        .bg {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1920') no-repeat center center fixed;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1920');
             background-size: cover;
-            filter: brightness(0.5);
+            background-position: center;
             z-index: -1;
+            filter: contrast(1.1) brightness(0.6);
         }
 
         /* Kar Taneleri */
         .snowflake {
-            color: #fff; font-size: 1.2em;
-            position: fixed; top: -10%; z-index: 999;
-            user-select: none; animation: fall linear infinite;
+            color: #fff; position: fixed; top: -10%; z-index: 999;
+            user-select: none; pointer-events: none;
+            animation: fall linear infinite;
         }
         @keyframes fall {
-            0% { top: -10%; transform: translateX(0); }
-            100% { top: 100%; transform: translateX(25px); }
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
         }
 
-        /* Orta Yazı ve Buton */
-        .main {
+        /* Orta Yazı */
+        .container {
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             height: 100vh; color: white; text-align: center;
         }
 
-        h1 { font-size: 5vw; letter-spacing: 10px; margin-bottom: 10px; text-shadow: 0 0 20px #fff; }
-        
-        #playBtn {
-            padding: 15px 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid white;
-            color: white;
-            cursor: pointer;
-            font-size: 1.2em;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
-            border-radius: 5px;
+        h1 {
+            font-size: 5rem; font-weight: 900; letter-spacing: -2px;
+            margin: 0; text-transform: uppercase;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        #playBtn:hover {
-            background: white;
-            color: black;
+        #play-status {
+            margin-top: 20px;
+            padding: 10px 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem; letter-spacing: 2px;
+            transition: 0.3s;
         }
+
+        .playing { border-color: #fff !important; color: #fff; }
     </style>
 </head>
-<body>
+<body onclick="toggleMusic()">
 
-    <div class="bg-image"></div>
+    <div class="bg"></div>
 
-    <div class="main">
+    <div class="container">
         <h1>911 CARRERA</h1>
-        <button id="playBtn">LOOK AT ME 2.0</button>
+        <div id="play-status">CLICK TO PLAY</div>
     </div>
 
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <audio id="audio" loop>
+        <source src="911 CARRERA - DEHA INC. (Official Music Video).mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        const music = document.getElementById('bgMusic');
-        const btn = document.getElementById('playBtn');
+        const audio = document.getElementById("audio");
+        const status = document.getElementById("play-status");
 
-        // Müziği Başlat/Durdur
-        btn.addEventListener('click', () => {
-            if (music.paused) {
-                music.play();
-                btn.innerText = "MÜZİK ÇALIYOR...";
-                btn.style.opacity = "0.5";
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    status.innerText = "PLAYING: DEHA INC.";
+                    status.classList.add("playing");
+                }).catch(e => alert("Müzik dosyası bulunamadı! Dosya adını kontrol et."));
             } else {
-                music.pause();
-                btn.innerText = "DEVAM ET";
+                audio.pause();
+                status.innerText = "PAUSED";
+                status.classList.remove("playing");
             }
-        });
+        }
 
-        // Kar Yağışı
+        // Kar Yağışı Sistemi
         function createSnow() {
             const snow = document.createElement('div');
-            snow.classList.add('snowflake');
+            snow.className = 'snowflake';
             snow.innerHTML = '❄';
             snow.style.left = Math.random() * 100 + 'vw';
-            snow.style.animationDuration = Math.random() * 3 + 2 + 's';
             snow.style.opacity = Math.random();
+            snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            snow.style.animationDuration = (Math.random() * 3 + 2) + 's';
             document.body.appendChild(snow);
             setTimeout(() => snow.remove(), 5000);
         }
