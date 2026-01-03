@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Ürün Mağazası</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, #001f3f 0%, #0074D9 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Kar Tanesi Efekti */
+        .snowflake {
+            color: #fff;
+            font-size: 1.2em;
+            position: fixed;
+            top: -10%;
+            z-index: 9999;
+            user-select: none;
+            cursor: default;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { top: -10%; }
+            100% { top: 100%; }
+        }
+
+        /* Ürün Kartları */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 50px;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .card img {
+            width: 80px;
+            margin-bottom: 15px;
+        }
+
+        h1 { text-align: center; margin-top: 50px; text-shadow: 2px 2px 4px #000; }
+    </style>
+</head>
+<body>
+
+    <h1>Kış Mağazasına Hoş Geldiniz</h1>
+
+    <div class="container">
+        <div class="card">
+            <h3>Valorant VP</h3>
+            <p>En uygun fiyatlı VP paketleri.</p>
+            <button style="padding: 10px 20px; cursor: pointer;">Satın Al</button>
+        </div>
+
+        <div class="card">
+            <h3>Minecraft Hesap</h3>
+            <p>Premium ve Gamepass seçenekleri.</p>
+            <button style="padding: 10px 20px; cursor: pointer;">Satın Al</button>
+        </div>
+
+        <div class="card">
+            <h3>Robux</h3>
+            <p>Hızlı teslimat Robux yükleme.</p>
+            <button style="padding: 10px 20px; cursor: pointer;">Satın Al</button>
+        </div>
+    </div>
+
+    <script>
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
+            document.body.appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
