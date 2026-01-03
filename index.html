@@ -13,7 +13,6 @@
             color: white; overflow-x: hidden; min-height: 100vh;
         }
 
-        /* Kar Tanesi Efekti */
         .snowflake {
             color: #fff; position: fixed; top: -10%; z-index: 9999;
             user-select: none; animation: fall linear infinite;
@@ -33,12 +32,6 @@
             width: 300px;
             text-align: center;
             border: 2px solid rgba(255, 255, 255, 0.1);
-            transition: 0.4s;
-        }
-
-        .team-card:hover {
-            transform: translateY(-10px);
-            border-color: #a8eb12;
         }
 
         .avatar-box {
@@ -56,8 +49,6 @@
 
         h1 { text-align: center; margin-top: 60px; font-size: 3em; }
         h3 { font-size: 1.6em; margin: 10px 0; color: #a8eb12; }
-        p { opacity: 0.8; font-size: 0.9em; }
-
     </style>
 </head>
 <body>
@@ -70,7 +61,7 @@
                 <img src="images.jpg" alt="jujustukaisen31">
             </div>
             <h3>jujustukaisen31</h3>
-            <p>Ekip Üyesi / Geliştirici</p>
+            <p>Ekip Üyesi</p>
         </div>
 
         <div class="team-card">
@@ -78,7 +69,7 @@
                 <img src="image_859c31.jpg" alt="curse_prime64">
             </div>
             <h3>curse_prime64</h3>
-            <p>Ekip Üyesi / Yönetici</p>
+            <p>Ekip Üyesi</p>
         </div>
     </div>
 
@@ -89,7 +80,6 @@
             snowflake.innerHTML = '❄';
             snowflake.style.left = Math.random() * 100 + 'vw';
             snowflake.style.animationDuration = Math.random() * 3 + 4 + 's';
-            snowflake.style.opacity = Math.random();
             document.body.appendChild(snowflake);
             setTimeout(() => snowflake.remove(), 7000);
         }
