@@ -3,113 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>911 Carrera</title>
+    <title>Ekibimiz</title>
     <style>
-        body, html {
+        body {
             margin: 0; padding: 0;
-            width: 100%; height: 100%;
-            overflow: hidden; background-color: #000;
-            font-family: 'Inter', -apple-system, sans-serif;
-            cursor: crosshair;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Segoe UI', sans-serif;
+            color: white; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Arka Plan Görseli */
-        .bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
-                        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1920');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-            filter: contrast(1.1) brightness(0.6);
-        }
-
-        /* Kar Taneleri */
+        /* Kar Tanesi Efekti */
         .snowflake {
             color: #fff; position: fixed; top: -10%; z-index: 999;
-            user-select: none; pointer-events: none;
-            animation: fall linear infinite;
+            user-select: none; animation: fall linear infinite;
         }
-        @keyframes fall {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(110vh) rotate(360deg); }
-        }
+        @keyframes fall { 0% { top: -10%; } 100% { top: 100%; } }
 
-        /* Orta Yazı */
+        /* Başlık */
+        .header {
+            margin-top: 50px; text-align: center;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .header h1 { font-size: 3rem; margin: 0; font-weight: bold; }
+        .snow-icon { font-size: 3rem; color: #7dd3fc; }
+
+        /* Kart Konteyner */
         .container {
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            height: 100vh; color: white; text-align: center;
+            display: flex; justify-content: center; flex-wrap: wrap;
+            padding: 50px; gap: 30px;
         }
 
-        h1 {
-            font-size: 5rem; font-weight: 900; letter-spacing: -2px;
-            margin: 0; text-transform: uppercase;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        #play-status {
-            margin-top: 20px;
-            padding: 10px 25px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 5px;
-            background: rgba(255,255,255,0.05);
+        /* Kart Tasarımı */
+        .card {
+            background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
-            font-size: 0.9rem; letter-spacing: 2px;
+            border-radius: 40px;
+            padding: 40px;
+            width: 320px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
             transition: 0.3s;
         }
 
-        .playing { border-color: #fff !important; color: #fff; }
+        .card:hover { transform: translateY(-10px); background: rgba(30, 41, 59, 0.9); }
+
+        /* Profil Fotoğrafları */
+        .profile-img {
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            border: 8px solid #0f172a;
+            margin-bottom: 25px;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .card h2 { color: #4ade80; margin: 10px 0; font-size: 1.8rem; }
+        .card p { color: #94a3b8; font-size: 1.1rem; margin: 5px 0; }
     </style>
 </head>
-<body onclick="toggleMusic()">
+<body>
 
-    <div class="bg"></div>
-
-    <div class="container">
-        <h1>911 CARRERA</h1>
-        <div id="play-status">CLICK TO PLAY</div>
+    <div class="header">
+        <span class="snow-icon">❄️</span>
+        <h1>Ekibimiz</h1>
     </div>
 
-    <audio id="audio" loop>
-        <source src="911 CARRERA - DEHA INC. (Official Music Video).mp3" type="audio/mpeg">
-    </audio>
+    <div class="container">
+        <div class="card">
+            <img src="image_8605e4.jpg" alt="TTNI Network" class="profile-img">
+            <h2>jujustukaisen31</h2>
+            <p>Ekip Üyesi / Geliştiriciki</p>
+        </div>
+
+        <div class="card">
+            <img src="images.jpg" alt="Anime Character" class="profile-img">
+            <h2>curse_prime64</h2>
+            <p>Ekip Üyesi / Yönetici</p>
+        </div>
+    </div>
 
     <script>
-        const audio = document.getElementById("audio");
-        const status = document.getElementById("play-status");
-
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play().then(() => {
-                    status.innerText = "PLAYING: DEHA INC.";
-                    status.classList.add("playing");
-                }).catch(e => alert("Müzik dosyası bulunamadı! Dosya adını kontrol et."));
-            } else {
-                audio.pause();
-                status.innerText = "PAUSED";
-                status.classList.remove("playing");
-            }
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 4 + 's';
+            snowflake.style.opacity = Math.random();
+            document.body.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), 7000);
         }
-
-        // Kar Yağışı Sistemi
-        function createSnow() {
-            const snow = document.createElement('div');
-            snow.className = 'snowflake';
-            snow.innerHTML = '❄';
-            snow.style.left = Math.random() * 100 + 'vw';
-            snow.style.opacity = Math.random();
-            snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
-            snow.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(snow);
-            setTimeout(() => snow.remove(), 5000);
-        }
-        setInterval(createSnow, 100);
+        setInterval(createSnowflake, 150);
     </script>
 </body>
 </html>
-<audio id="audio" loop>
-    <source src="music.mp3" type="audio/mpeg">
-</audio>
