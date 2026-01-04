@@ -93,7 +93,7 @@
         .team-card p { font-size: 1rem; color: #ddd; line-height: 1.6; }
         .heart { color: #ff4d4d; font-size: 1.2rem; }
 
-        /* YETKİLİ KADROSU (GÖRSELDEKİ TARZ) */
+        /* YETKİLİ KADROSU */
         .staff-container {
             display: flex;
             flex-wrap: wrap;
@@ -103,7 +103,7 @@
         }
         .staff-card {
             background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #ff0000; /* Görseldeki kırmızı çerçeve */
+            border: 2px solid #ff0000;
             border-radius: 15px;
             width: 230px;
             padding: 35px 20px;
@@ -122,13 +122,11 @@
             display: block;
             letter-spacing: 2px;
         }
-        /* Rol Renkleri */
         .helper { color: #00ff88; }
         .acc { color: #00d4ff; }
         .d-rehber { color: #ffcc00; }
         .rehber { color: #ffffff; }
 
-        /* Kadro İçi Başvuru Butonu */
         .apply-btn {
             display: inline-block;
             width: 100%;
@@ -150,12 +148,38 @@
             box-shadow: 0 0 15px white;
         }
 
+        /* MÜZİK KONTROL BUTONU */
+        #music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid #00d4ff;
+            color: #00d4ff;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 20px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .footer { margin-top: 80px; color: #444; font-size: 0.8rem; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
     <canvas id="particles"></canvas>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="music-toggle" onclick="toggleMusic()">🔊</button>
 
     <div class="header">
         <h1>TTNI NETWORK</h1>
@@ -172,7 +196,6 @@
             <p><b>Yaş:</b> 11</p>
             <p>Arkadaşlarini çok sever. En çok <b>Ttni</b>'yi sever <span class="heart">❤</span></p>
         </div>
-
         <div class="team-card">
             <h3>Ttni</h3>
             <p><b>Yaş:</b> 11</p>
@@ -186,17 +209,14 @@
             <span class="role-name helper">HELPER</span>
             <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a>
         </div>
-
         <div class="staff-card">
             <span class="role-name acc">ACC</span>
             <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a>
         </div>
-
         <div class="staff-card">
             <span class="role-name d-rehber">D. REHBER</span>
             <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a>
         </div>
-
         <div class="staff-card">
             <span class="role-name rehber">REHBER</span>
             <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a>
@@ -206,7 +226,7 @@
     <div class="footer">© 2026 Ttni Network - play.credos.qzz.io</div>
 
     <script>
-        // MAVİ NOKTA YAĞMURU SCRIPT
+        // Mavi Nokta Yağmuru
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -222,45 +242,46 @@
             }
             update() {
                 this.y += this.speed;
-                if (this.y > canvas.height) {
-                    this.y = -10;
-                    this.x = Math.random() * canvas.width;
-                }
+                if (this.y > canvas.height) { this.y = -10; this.x = Math.random() * canvas.width; }
             }
             draw() {
                 ctx.fillStyle = '#00d4ff';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
 
-        function init() {
-            for (let i = 0; i < 100; i++) {
-                particlesArray.push(new Particle());
-            }
-        }
-
+        function init() { for (let i = 0; i < 100; i++) { particlesArray.push(new Particle()); } }
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
+            for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); }
             requestAnimationFrame(animate);
         }
+        init(); animate();
 
-        init();
-        animate();
-
-        // IP KOPYALAMA FONKSİYONU
-        function copyIP() {
-            const ip = "play.credos.qzz.io";
-            navigator.clipboard.writeText(ip);
-            alert("IP Adresi Kopyalandı: " + ip + "\nİyi oyunlar!");
+        // Müzik Kontrolü
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-toggle');
+        
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.innerText = "🔊";
+            } else {
+                music.pause();
+                musicBtn.innerText = "🔇";
+            }
         }
 
-        // EKRAN BOYUTU DEĞİŞİNCE CANVAS'I GÜNCELLE
+        // Sayfaya ilk tıklandığında müziği başlat (Chrome kısıtlaması için)
+        document.body.addEventListener('click', () => {
+            if (music.paused) { music.play(); }
+        }, { once: true });
+
+        function copyIP() {
+            navigator.clipboard.writeText("play.credos.qzz.io");
+            alert("IP Kopyalandı!");
+        }
+
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
