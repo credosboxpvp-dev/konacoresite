@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ttni Network | Canlı Oyuncu Sayısı</title>
+    <title>Ttni Network | Kanka Özel Site</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,7 +33,7 @@
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
         }
 
-        /* CANLI OYUNCU SAYACI STİLİ */
+        /* CANLI OYUNCU SAYACI */
         .player-count-box {
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid #00d4ff;
@@ -41,14 +41,13 @@
             border-radius: 50px;
             font-family: 'Orbitron', sans-serif;
             margin-bottom: 30px;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 10px;
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
         }
         .online-dot {
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             background-color: #00ff88;
             border-radius: 50%;
             box-shadow: 0 0 10px #00ff88;
@@ -82,10 +81,11 @@
             background: rgba(255, 255, 255, 0.03);
             border: 2px solid #00d4ff;
             border-radius: 15px;
-            padding: 20px;
-            width: 260px;
+            padding: 25px;
+            width: 280px;
             text-align: center;
             transition: 0.3s;
+            backdrop-filter: blur(5px);
         }
         .staff-card { border-color: #ff0000; }
         .staff-card:hover { box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
@@ -98,13 +98,14 @@
 
         .apply-btn {
             display: block;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid white;
             border-radius: 20px;
             color: white;
             text-decoration: none;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             transition: 0.3s;
+            text-transform: uppercase;
         }
         .apply-btn:hover { background: white; color: black; }
 
@@ -112,6 +113,7 @@
             position: fixed; bottom: 20px; right: 20px;
             background: rgba(0, 212, 255, 0.2); border: 1px solid #00d4ff;
             color: #00d4ff; width: 45px; height: 45px; border-radius: 50%; cursor: pointer;
+            z-index: 1000;
         }
 
         .footer { margin-top: 60px; color: #444; font-size: 0.7rem; }
@@ -130,12 +132,10 @@
     <div class="header">
         <h1>TTNI NETWORK</h1>
         
-        <center>
-            <div class="player-count-box">
-                <div class="online-dot"></div>
-                <span>Aktif Oyuncu: <b id="player-count" style="color:#00ff88;">Yükleniyor...</b></span>
-            </div>
-        </center>
+        <div class="player-count-box">
+            <div class="online-dot"></div>
+            <span>Aktif Oyuncu: <b id="player-count" style="color:#00ff88;">...</b></span>
+        </div>
 
         <div class="top-btns">
             <button class="gamer-btn" onclick="copyIP()">IP: play.credos.qzz.io</button>
@@ -143,24 +143,32 @@
         </div>
     </div>
 
-    <h2 class="section-title">EKİBİMİZ</h2>
+    <h2 class="section-title">✨ EKİBİMİZ</h2>
     <div class="team-container">
-        <div class="team-card"><h3>Konacore</h3><p>Yaş: 11<br>En çok Ttni'yi sever ❤️</p></div>
-        <div class="team-card"><h3>Ttni</h3><p>Yaş: 11<br>En çok Konacore'yi sever ❤️</p></div>
+        <div class="team-card">
+            <h3>Konacore</h3>
+            <p>Yaş: 11</p>
+            <p>Arkadaşlarini sever. En çok <b>Ttni</b>'yi sever ❤️</p>
+        </div>
+        <div class="team-card">
+            <h3>Ttni</h3>
+            <p>Yaş: 11</p>
+            <p>Arkadaşlarini sever. En çok <b>Konacore</b>'yi sever ❤️</p>
+        </div>
     </div>
 
-    <h2 class="section-title">YETKİLİ KADROSU</h2>
+    <h2 class="section-title">🛡️ YETKİLİ KADROSU</h2>
     <div class="staff-container">
-        <div class="staff-card"><span class="role-name helper">HELPER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-btn">BAŞVUR</a></div>
-        <div class="staff-card"><span class="role-name acc">ACC</span><a href="https://discord.gg/TgJ6v9UC" class="apply-btn">BAŞVUR</a></div>
-        <div class="staff-card"><span class="role-name d-rehber">D. REHBER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-btn">BAŞVUR</a></div>
-        <div class="staff-card"><span class="role-name rehber">REHBER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-btn">BAŞVUR</a></div>
+        <div class="staff-card"><span class="role-name helper">HELPER</span><a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a></div>
+        <div class="staff-card"><span class="role-name acc">ACC</span><a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a></div>
+        <div class="staff-card"><span class="role-name d-rehber">D. REHBER</span><a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a></div>
+        <div class="staff-card"><span class="role-name rehber">REHBER</span><a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a></div>
     </div>
 
     <div class="footer">© 2026 Ttni Network - play.credos.qzz.io</div>
 
     <script>
-        // Mavi Yağmur
+        // Mavi Nokta Yağmuru
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -177,22 +185,23 @@
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); } requestAnimationFrame(animate); }
         init(); animate();
 
-        // CANLI OYUNCU SAYISI ÇEKME (API)
-        function updatePlayerCount() {
-            fetch('https://api.mcstatus.io/v2/status/java/play.credos.qzz.io')
-                .then(response => response.json())
-                .then(data => {
-                    const count = data.players.online;
-                    document.getElementById('player-count').innerText = count;
-                })
-                .catch(err => {
-                    document.getElementById('player-count').innerText = "0";
-                    console.error("Hata:", err);
-                });
+        // SAAT BAŞI DEĞİŞEN OYUNCU SAYISI (1-10 ARASI)
+        function setHourlyPlayerCount() {
+            const now = new Date();
+            const hour = now.getHours();
+            const day = now.getDate();
+            
+            // Saate ve güne göre sabit ama rastgele görünen bir sayı üretir
+            // (hour * day) kullanarak her saat başı farklı bir sayı gelmesini sağlıyoruz
+            let seed = (hour + day) * 7; 
+            let count = (seed % 10) + 1; // 1 ile 10 arası sayı üretir
+            
+            document.getElementById('player-count').innerText = count;
         }
-        updatePlayerCount();
-        setInterval(updatePlayerCount, 30000); // 30 saniyede bir güncelle
+        setHourlyPlayerCount();
+        setInterval(setHourlyPlayerCount, 60000); // Her dakika kontrol et saati
 
+        // Müzik Kontrolü
         const music = document.getElementById('bg-music');
         function toggleMusic() {
             if (music.paused) { music.play(); document.getElementById('music-toggle').innerText = "🔊"; }
@@ -201,6 +210,7 @@
         document.body.addEventListener('click', () => { if (music.paused) music.play(); }, { once: true });
 
         function copyIP() { navigator.clipboard.writeText("play.credos.qzz.io"); alert("IP Kopyalandı!"); }
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
 </body>
 </html>
