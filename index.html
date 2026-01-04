@@ -3,140 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ekibimiz | Vibe</title>
+    <title>Ttni Network | Gamer Landing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
+        /* Genel Ayarlar */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            margin: 0; padding: 0;
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            font-family: 'Inter', -apple-system, sans-serif;
-            color: white; min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
+            background-color: #050505;
+            color: white;
+            font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
 
-        /* Kar Tanesi Efekti */
-        .snowflake {
-            color: #fff; position: fixed; top: -10%; z-index: 999;
-            user-select: none; pointer-events: none;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        /* Mavi Nokta Yağmuru (Canvas) */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
-        /* Başlık Bölümü */
-        .header {
-            margin-top: 60px; text-align: center;
-            display: flex; align-items: center; gap: 20px;
-        }
-        .header h1 { font-size: 3.5rem; margin: 0; font-weight: 800; letter-spacing: -1px; }
-        .snow-icon { font-size: 3.5rem; color: #7dd3fc; animation: pulse 2s infinite; }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Kart Konteyner */
         .container {
-            display: flex; justify-content: center; flex-wrap: wrap;
-            padding: 60px 20px; gap: 40px;
-        }
-
-        /* Kart Tasarımı */
-        .card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
-            border-radius: 50px;
-            padding: 50px 30px;
-            width: 340px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            padding: 20px;
         }
 
-        .card:hover {
-            transform: translateY(-15px) scale(1.02);
-            background: rgba(30, 41, 59, 0.6);
-            border-color: rgba(74, 222, 128, 0.4);
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            margin-bottom: 10px;
         }
 
-        /* Profil Resimleri */
-        .profile-img {
-            width: 200px; height: 200px;
-            border-radius: 50%;
-            border: 10px solid #0f172a;
-            margin-bottom: 30px;
-            object-fit: cover;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            background: #0f172a;
+        p {
+            font-size: 1.2rem;
+            color: #bbb;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
         }
 
-        .card h2 { 
-            color: #4ade80; 
-            margin: 15px 0 10px; 
-            font-size: 2.2rem; 
-            font-weight: 700;
-        }
-        
-        .card p { 
-            color: #94a3b8; 
-            font-size: 1.2rem; 
-            margin: 0;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+        /* Ekibimiz Görsel Alanı */
+        .team-section {
+            margin-bottom: 40px;
         }
 
-        .card-glow {
-            width: 80%; height: 2px;
-            background: linear-gradient(90deg, transparent, #4ade80, transparent);
-            margin: 25px auto 0;
-            opacity: 0.3;
+        .team-img {
+            width: 300px; /* Görsel boyutunu buradan ayarlayabilirsin */
+            border-radius: 20px;
+            border: 3px solid #00d4ff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            transition: 0.4s;
+        }
+
+        .team-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Gamer Butonlar */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .gamer-btn {
+            font-family: 'Orbitron', sans-serif;
+            padding: 15px 40px;
+            font-size: 1rem;
+            background: transparent;
+            color: #00d4ff;
+            border: 2px solid #00d4ff;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            letter-spacing: 2px;
+            border-radius: 5px;
+        }
+
+        .gamer-btn:hover {
+            background: #00d4ff;
+            color: #000;
+            box-shadow: 0 0 25px #00d4ff;
+        }
+
+        .ip-copy {
+            background: rgba(0, 212, 255, 0.1);
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            margin-top: 50px;
+            font-size: 0.8rem;
+            color: #444;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <span class="snow-icon">❄️</span>
-        <h1>Ekibimiz</h1>
-    </div>
+    <canvas id="particles"></canvas>
 
     <div class="container">
-        <div class="card">
-            <img src="images.jpg" alt="jujustukaisen31" class="profile-img">
-            <h2>jujustukaisen31</h2>
-            <p>Ekip Üyesi / Geliştiriciki</p>
-            <div class="card-glow"></div>
+        <h1>TTNI NETWORK</h1>
+        <p>ADALETİN VE GÜCÜN ADRESİ</p>
+
+        <div class="team-section">
+            <h3 style="font-family: 'Orbitron'; margin-bottom: 15px; color: #00d4ff;">EKİBİMİZ</h3>
+            <img src="FOTOĞRAF_LINKINI_BURAYA_YAPISTIR" alt="Ttni Ekibi" class="team-img">
         </div>
 
-        <div class="card">
-            <img src="image_859c31.jpg" alt="curse_prime64" class="profile-img">
-            <h2>curse_prime64</h2>
-            <p>Ekip Üyesi / Yönetici</p>
-            <div class="card-glow"></div>
+        <div class="btn-group">
+            <button class="gamer-btn ip-copy" onclick="copyIP()">IP: play.credos.qzz.io</button>
+            <a href="https://discord.gg/DAVET" class="gamer-btn">DISCORD'A KATIL</a>
         </div>
+
+        <div class="footer">© 2024 Ttni Network - play.credos.qzz.io</div>
     </div>
 
     <script>
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.innerHTML = '❄';
-            snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
-            snowflake.style.opacity = Math.random() * 0.7 + 0.3;
-            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
-            document.body.appendChild(snowflake);
-            setTimeout(() => snowflake.remove(), 8000);
+        // Mavi Nokta Yağmuru Efekti
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speed = Math.random() * 2 + 0.5;
+            }
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.y = 0;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = '#00d4ff';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
-        setInterval(createSnowflake, 120);
+
+        function init() {
+            for (let i = 0; i < 100; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        // IP Kopyalama Fonksiyonu
+        function copyIP() {
+            const ip = "play.credos.qzz.io";
+            navigator.clipboard.writeText(ip);
+            alert("Sunucu adresi kopyalandı: " + ip);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
