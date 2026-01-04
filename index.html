@@ -86,6 +86,7 @@
             text-decoration: none;
             letter-spacing: 2px;
             border-radius: 8px;
+            text-align: center;
         }
 
         .gamer-btn:hover {
@@ -95,90 +96,82 @@
             transform: translateY(-3px);
         }
 
-        /* MODAL (KARE PENCERE) STİLLERİ */
+        /* MODAL STİLLERİ */
         .modal-overlay {
-            display: none; /* Başlangıçta gizli */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 100;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
 
         .modal-content {
             background: #111;
-            padding: 40px;
+            padding: 30px;
             border-radius: 15px;
             border: 2px solid #00d4ff;
             box-shadow: 0 0 50px rgba(0, 212, 255, 0.3);
             width: 350px;
             text-align: center;
-            position: relative;
             animation: modalFadeIn 0.3s ease;
         }
 
         @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .modal-content h2 {
             font-family: 'Orbitron', sans-serif;
             color: #00d4ff;
-            margin-bottom: 25px;
-            font-size: 1.2rem;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
         }
 
         .apply-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
         }
 
-        .apply-item {
+        /* Tıklanabilir Liste Elemanları */
+        .apply-link {
             color: #fff;
-            font-size: 1.1rem;
-            padding: 10px;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 12px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 5px;
-            border-left: 3px solid #00d4ff;
+            border-left: 4px solid #00d4ff;
             transition: 0.3s;
+            display: block;
+            text-align: left;
         }
 
-        .apply-item:hover {
-            background: rgba(0, 212, 255, 0.1);
-            padding-left: 20px;
+        .apply-link:hover {
+            background: rgba(0, 212, 255, 0.2);
+            padding-left: 25px;
+            color: #00d4ff;
         }
 
-        .close-btn {
-            margin-top: 25px;
-            background: transparent;
+        .close-modal {
+            margin-top: 20px;
             color: #ff4d4d;
-            border: 1px solid #ff4d4d;
-            padding: 5px 15px;
             cursor: pointer;
-            border-radius: 5px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
+            background: none;
+            border: none;
         }
 
-        .close-btn:hover {
-            background: #ff4d4d;
-            color: white;
-        }
-
-        .footer {
-            margin-top: 40px;
-            font-size: 0.7rem;
-            color: #555;
-        }
+        .footer { margin-top: 40px; font-size: 0.7rem; color: #555; }
     </style>
 </head>
 <body>
@@ -205,19 +198,19 @@
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
-            <h2>BAŞVURU KATEGORİLERİ</h2>
+            <h2>BAŞVURU SEÇİN</h2>
             <div class="apply-list">
-                <div class="apply-item">Helper Başvuru</div>
-                <div class="apply-item">ACC Başvuru</div>
-                <div class="apply-item">D. Rehber</div>
-                <div class="apply-item">Rehber Başvuru</div>
+                <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-link">Helper Başvuru</a>
+                <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-link">ACC Başvuru</a>
+                <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-link">D. Rehber</a>
+                <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-link">Rehber Başvuru</a>
             </div>
-            <button class="close-btn" onclick="closeModal()">KAPAT</button>
+            <button class="close-modal" onclick="closeModal()">[ KAPAT ]</button>
         </div>
     </div>
 
     <script>
-        // Mavi Nokta Efekti
+        // Arkaplan Efekti
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -254,25 +247,18 @@
         }
         init(); animate();
 
-        // MODAL KONTROLLERİ
-        function openModal() {
-            document.getElementById('modalOverlay').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').style.display = 'none';
-        }
-
+        // Modal Fonksiyonları
+        function openModal() { document.getElementById('modalOverlay').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
+        
         // Dışarı tıklayınca kapatma
         window.onclick = function(event) {
-            let modal = document.getElementById('modalOverlay');
-            if (event.target == modal) { closeModal(); }
+            if (event.target == document.getElementById('modalOverlay')) { closeModal(); }
         }
 
         function copyIP() {
-            const ip = "play.credos.qzz.io";
-            navigator.clipboard.writeText(ip);
-            alert("IP Kopyalandı: " + ip);
+            navigator.clipboard.writeText("play.credos.qzz.io");
+            alert("IP Kopyalandı!");
         }
 
         window.addEventListener('resize', () => {
