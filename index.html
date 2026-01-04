@@ -12,7 +12,7 @@
             background-color: #050505;
             color: white;
             font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -38,77 +38,93 @@
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: #00d4ff;
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
-        p {
-            font-size: 1.2rem;
+        .motto {
+            font-size: 1rem;
             color: #bbb;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
         /* Ekibimiz Görsel Alanı */
         .team-section {
-            margin-bottom: 40px;
+            margin-bottom: 35px;
+            position: relative;
+            display: inline-block;
         }
 
         .team-img {
-            width: 300px; /* Görsel boyutunu buradan ayarlayabilirsin */
-            border-radius: 20px;
-            border: 3px solid #00d4ff;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            width: 220px;
+            height: 220px;
+            border-radius: 50%; /* Yuvarlak profil */
+            border: 4px solid #00d4ff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+            object-fit: cover;
             transition: 0.4s;
         }
 
         .team-img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 50px rgba(0, 212, 255, 0.5);
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.7);
+        }
+
+        .team-label {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00d4ff;
+            color: black;
+            font-family: 'Orbitron', sans-serif;
+            padding: 5px 15px;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 0.8rem;
         }
 
         /* Gamer Butonlar */
         .btn-group {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
         }
 
         .gamer-btn {
             font-family: 'Orbitron', sans-serif;
-            padding: 15px 40px;
-            font-size: 1rem;
-            background: transparent;
+            width: 280px;
+            padding: 15px;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.6);
             color: #00d4ff;
             border: 2px solid #00d4ff;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
             text-decoration: none;
             letter-spacing: 2px;
-            border-radius: 5px;
+            border-radius: 8px;
+            display: block;
         }
 
         .gamer-btn:hover {
             background: #00d4ff;
             color: #000;
-            box-shadow: 0 0 25px #00d4ff;
-        }
-
-        .ip-copy {
-            background: rgba(0, 212, 255, 0.1);
-            font-size: 1.1rem;
+            box-shadow: 0 0 30px #00d4ff;
+            transform: translateY(-3px);
         }
 
         .footer {
-            margin-top: 50px;
-            font-size: 0.8rem;
-            color: #444;
+            margin-top: 40px;
+            font-size: 0.7rem;
+            color: #555;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -118,19 +134,19 @@
 
     <div class="container">
         <h1>TTNI NETWORK</h1>
-        <p>ADALETİN VE GÜCÜN ADRESİ</p>
+        <p class="motto">Adaletin ve Gücün Adresi</p>
 
         <div class="team-section">
-            <h3 style="font-family: 'Orbitron'; margin-bottom: 15px; color: #00d4ff;">EKİBİMİZ</h3>
-            <img src="FOTOĞRAF_LINKINI_BURAYA_YAPISTIR" alt="Ttni Ekibi" class="team-img">
+            <img src="https://i.ibb.co/VpX5Y0R/ttni-team.jpg" alt="Ttni Ekibi" class="team-img">
+            <div class="team-label">EKİBİMİZ</div>
         </div>
 
         <div class="btn-group">
-            <button class="gamer-btn ip-copy" onclick="copyIP()">IP: play.credos.qzz.io</button>
-            <a href="https://discord.gg/DAVET" class="gamer-btn">DISCORD'A KATIL</a>
+            <button class="gamer-btn" onclick="copyIP()">IP: play.credos.qzz.io</button>
+            <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="gamer-btn">DISCORD'A KATIL</a>
         </div>
 
-        <div class="footer">© 2024 Ttni Network - play.credos.qzz.io</div>
+        <div class="footer">© 2026 Ttni Network - play.credos.qzz.io</div>
     </div>
 
     <script>
@@ -145,18 +161,18 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speed = Math.random() * 2 + 0.5;
+                this.size = Math.random() * 2 + 1;
+                this.speed = Math.random() * 1.5 + 0.5;
             }
             update() {
                 this.y += this.speed;
                 if (this.y > canvas.height) {
-                    this.y = 0;
+                    this.y = -10;
                     this.x = Math.random() * canvas.width;
                 }
             }
             draw() {
-                ctx.fillStyle = '#00d4ff';
+                ctx.fillStyle = 'rgba(0, 212, 255, 0.8)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -164,7 +180,7 @@
         }
 
         function init() {
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 120; i++) {
                 particlesArray.push(new Particle());
             }
         }
@@ -181,11 +197,10 @@
         init();
         animate();
 
-        // IP Kopyalama Fonksiyonu
         function copyIP() {
             const ip = "play.credos.qzz.io";
             navigator.clipboard.writeText(ip);
-            alert("Sunucu adresi kopyalandı: " + ip);
+            alert("Sunucu adresi kopyalandı: " + ip + "\nİyi oyunlar!");
         }
 
         window.addEventListener('resize', () => {
