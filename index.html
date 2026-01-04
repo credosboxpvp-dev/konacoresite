@@ -6,13 +6,12 @@
     <title>Ttni Network | Gamer Landing</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        /* Genel Ayarlar */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #050505;
             color: white;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -20,7 +19,6 @@
             min-height: 100vh;
         }
 
-        /* Mavi Nokta Yağmuru (Canvas) */
         #particles {
             position: fixed;
             top: 0;
@@ -52,7 +50,6 @@
             text-transform: uppercase;
         }
 
-        /* Ekibimiz Görsel Alanı */
         .team-section {
             margin-bottom: 35px;
             position: relative;
@@ -60,35 +57,14 @@
         }
 
         .team-img {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%; /* Yuvarlak profil */
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
             border: 4px solid #00d4ff;
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
             object-fit: cover;
-            transition: 0.4s;
         }
 
-        .team-img:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 0 50px rgba(0, 212, 255, 0.7);
-        }
-
-        .team-label {
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #00d4ff;
-            color: black;
-            font-family: 'Orbitron', sans-serif;
-            padding: 5px 15px;
-            font-weight: bold;
-            border-radius: 5px;
-            font-size: 0.8rem;
-        }
-
-        /* Gamer Butonlar */
         .btn-group {
             display: flex;
             flex-direction: column;
@@ -98,19 +74,19 @@
 
         .gamer-btn {
             font-family: 'Orbitron', sans-serif;
-            width: 280px;
+            width: 320px;
             padding: 15px;
             font-size: 0.9rem;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             color: #00d4ff;
             border: 2px solid #00d4ff;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.3s ease;
             text-decoration: none;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             border-radius: 8px;
-            display: block;
+            position: relative;
         }
 
         .gamer-btn:hover {
@@ -120,11 +96,23 @@
             transform: translateY(-3px);
         }
 
+        /* Başvuru Butonu Özel Alt Yazı */
+        .apply-btn .sub-text {
+            display: block;
+            font-size: 0.65rem;
+            margin-top: 5px;
+            color: #fff;
+            opacity: 0.8;
+        }
+
+        .gamer-btn:hover .sub-text {
+            color: #000;
+        }
+
         .footer {
             margin-top: 40px;
             font-size: 0.7rem;
             color: #555;
-            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -138,19 +126,24 @@
 
         <div class="team-section">
             <img src="https://i.ibb.co/VpX5Y0R/ttni-team.jpg" alt="Ttni Ekibi" class="team-img">
-            <div class="team-label">EKİBİMİZ</div>
+            <div style="margin-top: 10px; font-family: 'Orbitron'; color: #00d4ff;">EKİBİMİZ</div>
         </div>
 
         <div class="btn-group">
             <button class="gamer-btn" onclick="copyIP()">IP: play.credos.qzz.io</button>
+            
             <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="gamer-btn">DISCORD'A KATIL</a>
+
+            <a href="https://discord.gg/TgJ6v9UC" class="gamer-btn apply-btn">
+                MINECRAFT BAŞVURU
+                <span class="sub-text">Helper'ın altında Başvuru Ol</span>
+            </a>
         </div>
 
         <div class="footer">© 2026 Ttni Network - play.credos.qzz.io</div>
     </div>
 
     <script>
-        // Mavi Nokta Yağmuru Efekti
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -162,7 +155,7 @@
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2 + 1;
-                this.speed = Math.random() * 1.5 + 0.5;
+                this.speed = Math.random() * 2 + 0.5;
             }
             update() {
                 this.y += this.speed;
@@ -172,7 +165,7 @@
                 }
             }
             draw() {
-                ctx.fillStyle = 'rgba(0, 212, 255, 0.8)';
+                ctx.fillStyle = '#00d4ff';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -180,7 +173,7 @@
         }
 
         function init() {
-            for (let i = 0; i < 120; i++) {
+            for (let i = 0; i < 100; i++) {
                 particlesArray.push(new Particle());
             }
         }
@@ -200,7 +193,7 @@
         function copyIP() {
             const ip = "play.credos.qzz.io";
             navigator.clipboard.writeText(ip);
-            alert("Sunucu adresi kopyalandı: " + ip + "\nİyi oyunlar!");
+            alert("IP Kopyalandı: " + ip);
         }
 
         window.addEventListener('resize', () => {
