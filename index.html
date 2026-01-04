@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ttni Network | Resmi Web Sitesi</title>
+    <title>Ttni Network | Canlı Oyuncu Sayısı</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        /* TEMEL AYARLAR */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #050505;
@@ -20,155 +19,102 @@
             padding: 50px 20px;
         }
 
-        /* ARKA PLAN MAVİ NOKTA EFEKTİ */
         #particles {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
         }
 
-        /* ÜST BAŞLIK VE BUTONLAR */
-        .header { text-align: center; margin-bottom: 50px; }
+        .header { text-align: center; margin-bottom: 40px; }
         h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 3.5rem;
             color: #00d4ff;
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
-            margin-bottom: 20px;
         }
-        .top-btns { display: flex; gap: 15px; justify-content: center; }
+
+        /* CANLI OYUNCU SAYACI STİLİ */
+        .player-count-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d4ff;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff88;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .top-btns { display: flex; gap: 15px; justify-content: center; margin-bottom: 40px; }
         .gamer-btn {
             font-family: 'Orbitron', sans-serif;
-            padding: 15px 30px;
-            background: rgba(0, 212, 255, 0.1);
+            padding: 12px 25px;
+            background: rgba(0, 0, 0, 0.6);
             color: #00d4ff;
             border: 2px solid #00d4ff;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
             transition: 0.3s;
-            font-size: 0.9rem;
         }
-        .gamer-btn:hover {
-            background: #00d4ff;
-            color: black;
-            box-shadow: 0 0 25px #00d4ff;
-            transform: translateY(-3px);
-        }
+        .gamer-btn:hover { background: #00d4ff; color: black; box-shadow: 0 0 25px #00d4ff; }
 
-        /* BÖLÜM BAŞLIKLARI */
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            color: #00ff88;
-            font-size: 2rem;
-            margin: 60px 0 30px;
-            text-align: center;
-            letter-spacing: 2px;
-        }
+        .section-title { font-family: 'Orbitron'; color: #00ff88; font-size: 1.8rem; margin: 40px 0 20px; }
 
-        /* EKİBİMİZ (KONACORE & TTNI) */
-        .team-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .team-card {
+        /* KARTLAR */
+        .team-container, .staff-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .team-card, .staff-card {
             background: rgba(255, 255, 255, 0.03);
             border: 2px solid #00d4ff;
-            border-radius: 20px;
-            padding: 30px;
-            width: 300px;
-            text-align: center;
-            transition: 0.4s;
-            backdrop-filter: blur(5px);
-        }
-        .team-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
-            border-color: #fff;
-        }
-        .team-card h3 { font-family: 'Orbitron'; color: #00d4ff; font-size: 1.5rem; margin-bottom: 15px; }
-        .team-card p { font-size: 1rem; color: #ddd; line-height: 1.6; }
-        .heart { color: #ff4d4d; font-size: 1.2rem; }
-
-        /* YETKİLİ KADROSU */
-        .staff-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 1100px;
-        }
-        .staff-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #ff0000;
             border-radius: 15px;
-            width: 230px;
-            padding: 35px 20px;
+            padding: 20px;
+            width: 260px;
             text-align: center;
             transition: 0.3s;
         }
-        .staff-card:hover {
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-            transform: translateY(-5px);
-        }
-        .role-name {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            display: block;
-            letter-spacing: 2px;
-        }
+        .staff-card { border-color: #ff0000; }
+        .staff-card:hover { box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
+        
+        .role-name { font-family: 'Orbitron'; font-weight: bold; margin-bottom: 15px; display: block; }
         .helper { color: #00ff88; }
         .acc { color: #00d4ff; }
         .d-rehber { color: #ffcc00; }
         .rehber { color: #ffffff; }
 
         .apply-btn {
-            display: inline-block;
-            width: 100%;
-            padding: 12px;
+            display: block;
+            padding: 8px;
             border: 1px solid white;
-            border-radius: 25px;
-            background: transparent;
+            border-radius: 20px;
             color: white;
             text-decoration: none;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            font-weight: bold;
+            font-size: 0.7rem;
             transition: 0.3s;
-            text-transform: uppercase;
         }
-        .apply-btn:hover {
-            background: white;
-            color: black;
-            box-shadow: 0 0 15px white;
-        }
+        .apply-btn:hover { background: white; color: black; }
 
-        /* MÜZİK KONTROL BUTONU */
         #music-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 212, 255, 0.2);
-            border: 1px solid #00d4ff;
-            color: #00d4ff;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 100;
-            font-size: 20px;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; bottom: 20px; right: 20px;
+            background: rgba(0, 212, 255, 0.2); border: 1px solid #00d4ff;
+            color: #00d4ff; width: 45px; height: 45px; border-radius: 50%; cursor: pointer;
         }
 
-        .footer { margin-top: 80px; color: #444; font-size: 0.8rem; letter-spacing: 1px; }
+        .footer { margin-top: 60px; color: #444; font-size: 0.7rem; }
     </style>
 </head>
 <body>
@@ -183,109 +129,78 @@
 
     <div class="header">
         <h1>TTNI NETWORK</h1>
+        
+        <center>
+            <div class="player-count-box">
+                <div class="online-dot"></div>
+                <span>Aktif Oyuncu: <b id="player-count" style="color:#00ff88;">Yükleniyor...</b></span>
+            </div>
+        </center>
+
         <div class="top-btns">
             <button class="gamer-btn" onclick="copyIP()">IP: play.credos.qzz.io</button>
-            <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="gamer-btn">DISCORD'A KATIL</a>
+            <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="gamer-btn">DISCORD</a>
         </div>
     </div>
 
-    <h2 class="section-title">✨ EKİBİMİZ</h2>
+    <h2 class="section-title">EKİBİMİZ</h2>
     <div class="team-container">
-        <div class="team-card">
-            <h3>Konacore</h3>
-            <p><b>Yaş:</b> 11</p>
-            <p>Arkadaşlarini çok sever. En çok <b>Ttni</b>'yi sever <span class="heart">❤</span></p>
-        </div>
-        <div class="team-card">
-            <h3>Ttni</h3>
-            <p><b>Yaş:</b> 11</p>
-            <p>O da arkadaşlarini sever. En çok <b>Konacore</b>'yi sever <span class="heart">❤</span></p>
-        </div>
+        <div class="team-card"><h3>Konacore</h3><p>Yaş: 11<br>En çok Ttni'yi sever ❤️</p></div>
+        <div class="team-card"><h3>Ttni</h3><p>Yaş: 11<br>En çok Konacore'yi sever ❤️</p></div>
     </div>
 
-    <h2 class="section-title">🛡️ YETKİLİ KADROSU</h2>
+    <h2 class="section-title">YETKİLİ KADROSU</h2>
     <div class="staff-container">
-        <div class="staff-card">
-            <span class="role-name helper">HELPER</span>
-            <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a>
-        </div>
-        <div class="staff-card">
-            <span class="role-name acc">ACC</span>
-            <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a>
-        </div>
-        <div class="staff-card">
-            <span class="role-name d-rehber">D. REHBER</span>
-            <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a>
-        </div>
-        <div class="staff-card">
-            <span class="role-name rehber">REHBER</span>
-            <a href="https://discord.gg/TgJ6v9UC" target="_blank" class="apply-btn">BAŞVUR</a>
-        </div>
+        <div class="staff-card"><span class="role-name helper">HELPER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-btn">BAŞVUR</a></div>
+        <div class="staff-card"><span class="role-name acc">ACC</span><a href="https://discord.gg/TgJ6v9UC" class="apply-btn">BAŞVUR</a></div>
+        <div class="staff-card"><span class="role-name d-rehber">D. REHBER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-btn">BAŞVUR</a></div>
+        <div class="staff-card"><span class="role-name rehber">REHBER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-btn">BAŞVUR</a></div>
     </div>
 
     <div class="footer">© 2026 Ttni Network - play.credos.qzz.io</div>
 
     <script>
-        // Mavi Nokta Yağmuru
+        // Mavi Yağmur
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const particlesArray = [];
-
         class Particle {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speed = Math.random() * 1.5 + 0.5;
+                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1; this.speed = Math.random() * 1.5 + 0.5;
             }
-            update() {
-                this.y += this.speed;
-                if (this.y > canvas.height) { this.y = -10; this.x = Math.random() * canvas.width; }
-            }
-            draw() {
-                ctx.fillStyle = '#00d4ff';
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
+            update() { this.y += this.speed; if (this.y > canvas.height) { this.y = -10; this.x = Math.random() * canvas.width; } }
+            draw() { ctx.fillStyle = '#00d4ff'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
-
-        function init() { for (let i = 0; i < 100; i++) { particlesArray.push(new Particle()); } }
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); }
-            requestAnimationFrame(animate);
-        }
+        function init() { for (let i = 0; i < 80; i++) { particlesArray.push(new Particle()); } }
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); } requestAnimationFrame(animate); }
         init(); animate();
 
-        // Müzik Kontrolü
+        // CANLI OYUNCU SAYISI ÇEKME (API)
+        function updatePlayerCount() {
+            fetch('https://api.mcstatus.io/v2/status/java/play.credos.qzz.io')
+                .then(response => response.json())
+                .then(data => {
+                    const count = data.players.online;
+                    document.getElementById('player-count').innerText = count;
+                })
+                .catch(err => {
+                    document.getElementById('player-count').innerText = "0";
+                    console.error("Hata:", err);
+                });
+        }
+        updatePlayerCount();
+        setInterval(updatePlayerCount, 30000); // 30 saniyede bir güncelle
+
         const music = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-toggle');
-        
         function toggleMusic() {
-            if (music.paused) {
-                music.play();
-                musicBtn.innerText = "🔊";
-            } else {
-                music.pause();
-                musicBtn.innerText = "🔇";
-            }
+            if (music.paused) { music.play(); document.getElementById('music-toggle').innerText = "🔊"; }
+            else { music.pause(); document.getElementById('music-toggle').innerText = "🔇"; }
         }
+        document.body.addEventListener('click', () => { if (music.paused) music.play(); }, { once: true });
 
-        // Sayfaya ilk tıklandığında müziği başlat (Chrome kısıtlaması için)
-        document.body.addEventListener('click', () => {
-            if (music.paused) { music.play(); }
-        }, { once: true });
-
-        function copyIP() {
-            navigator.clipboard.writeText("play.credos.qzz.io");
-            alert("IP Kopyalandı!");
-        }
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        function copyIP() { navigator.clipboard.writeText("play.credos.qzz.io"); alert("IP Kopyalandı!"); }
     </script>
 </body>
 </html>
