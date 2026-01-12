@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ttni Network | Gamer Edition</title>
+    <title>Ttni Network | Red Gamer Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* GAMER THEME CORE */
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
         body {
-            background-color: #020205;
+            background-color: #0a0000;
             color: #fff;
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
@@ -20,48 +19,48 @@
             padding: 40px 10px;
         }
 
-        /* HAREKETLİ GAMER MESH ARKA PLAN */
+        /* ARKA PLAN VE KAR TANESİ EFEKTİ */
         #canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at center, #0a0a20 0%, #020205 100%);
+            background: radial-gradient(circle at center, #200000 0%, #050000 100%);
         }
 
-        /* HEADER SECTION */
+        /* HEADER */
         .header { text-align: center; margin-bottom: 50px; z-index: 10; }
         h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: clamp(2.5rem, 10vw, 4rem);
             font-weight: 900;
-            background: linear-gradient(to bottom, #fff 30%, #00d4ff 100%);
+            background: linear-gradient(to bottom, #fff 20%, #ff0000 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
             letter-spacing: 5px;
         }
 
         .player-count-box {
-            background: rgba(0, 212, 255, 0.1);
-            border: 2px solid rgba(0, 212, 255, 0.3);
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid rgba(255, 0, 0, 0.4);
             padding: 10px 30px;
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: 'Orbitron', sans-serif;
             margin: 25px 0;
             display: inline-flex;
             align-items: center;
             gap: 15px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
         }
         .online-dot {
             width: 12px; height: 12px;
-            background: #00ff88;
+            background: #ff0000;
             border-radius: 50%;
-            box-shadow: 0 0 15px #00ff88;
-            animation: glow 1.5s infinite;
+            box-shadow: 0 0 15px #ff0000;
+            animation: pulse 1.5s infinite;
         }
-        @keyframes glow { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
 
         /* BUTONLAR */
         .top-btns { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
@@ -69,31 +68,24 @@
             font-family: 'Orbitron', sans-serif;
             padding: 15px 35px;
             background: transparent;
-            color: #00d4ff;
-            border: 2px solid #00d4ff;
+            color: #ff0000;
+            border: 2px solid #ff0000;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.4s;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
         }
-        .gamer-btn:hover {
-            background: #00d4ff;
-            color: #000;
-            box-shadow: 0 0 30px #00d4ff;
-            transform: scale(1.05);
-        }
+        .gamer-btn:hover { background: #ff0000; color: #fff; box-shadow: 0 0 30px #ff0000; transform: translateY(-3px); }
 
-        /* SECTION TITLES */
         .section-title {
             font-family: 'Orbitron';
-            color: #00ff88;
+            color: #ff0000;
             font-size: 1.8rem;
             margin: 60px 0 30px;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            border-left: 5px solid #00ff88;
-            padding-left: 15px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
 
         /* GRID VE KARTLAR */
@@ -107,58 +99,48 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 4px; /* Keskin gamer köşeleri */
+            background: rgba(20, 0, 0, 0.6);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 4px;
             padding: 30px;
             text-align: center;
             transition: 0.4s;
-            backdrop-filter: blur(15px);
-            position: relative;
-            overflow: hidden;
+            backdrop-filter: blur(5px);
         }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, #00d4ff);
-            transition: 0.5s;
-        }
-        .card:hover::before { left: 100%; }
         .card:hover { 
-            background: rgba(0, 212, 255, 0.08); 
-            border-color: #00d4ff;
-            transform: translateY(-10px);
+            background: rgba(255, 0, 0, 0.1); 
+            border-color: #ff0000;
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
         }
 
-        .card h3 { font-family: 'Orbitron'; color: #00d4ff; margin-bottom: 10px; }
-        .heart { color: #ff4d4d; }
+        .card h3 { font-family: 'Orbitron'; color: #ff0000; margin-bottom: 10px; }
+        .heart { color: #fff; text-shadow: 0 0 5px #ff0000; }
 
-        /* KADRO KARTI ÖZEL */
-        .staff-card { border-left: 4px solid #ff4d4d; }
-        .staff-card:hover { border-color: #ff0000; }
         .role { font-family: 'Orbitron'; font-weight: 900; font-size: 1.4rem; margin-bottom: 15px; display: block; }
 
         .apply-link {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 25px;
-            border: 1px solid #fff;
-            color: #fff;
+            border: 1px solid #ff0000;
+            color: #ff0000;
             text-decoration: none;
             font-family: 'Orbitron';
             font-size: 0.7rem;
             transition: 0.3s;
         }
-        .apply-link:hover { background: #fff; color: #000; }
+        .apply-link:hover { background: #ff0000; color: #fff; }
 
-        /* MÜZİK KONTROL */
+        /* MÜZİK */
         #music-btn {
             position: fixed; bottom: 30px; right: 30px;
-            background: #00d4ff; color: #000; border: none;
+            background: #ff0000; color: #fff; border: none;
             width: 50px; height: 50px; border-radius: 5px; cursor: pointer;
-            font-size: 1.5rem; z-index: 1000; box-shadow: 0 0 15px #00d4ff;
+            font-size: 1.5rem; z-index: 1000; box-shadow: 0 0 15px #ff0000;
         }
 
-        .footer { margin-top: 100px; color: #444; font-family: 'Orbitron'; font-size: 0.8rem; }
+        .footer { margin-top: 100px; color: #440000; font-family: 'Orbitron'; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -175,7 +157,7 @@
         <h1>TTNI NETWORK</h1>
         <div class="player-count-box">
             <div class="online-dot"></div>
-            <span>ONLINE: <b id="count" style="color:#00ff88;">...</b> / 100</span>
+            <span>ONLINE: <b id="count" style="color:#fff;">...</b> / 100</span>
         </div>
         <div class="top-btns">
             <button class="gamer-btn" onclick="copyIP()">KOPYALA: IP</button>
@@ -183,7 +165,7 @@
         </div>
     </div>
 
-    <h2 class="section-title">TEAM / EKİBİMİZ</h2>
+    <h2 class="section-title">✨ EKİBİMİZ</h2>
     <div class="grid-container">
         <div class="card"><h3>Konacore</h3><p>Yaş: 11<br>En çok <b>Ttni</b>'yi sever <span class="heart">❤️</span></p></div>
         <div class="card"><h3>Ttni</h3><p>Yaş: 11<br>En çok <b>Konacore</b>'yi sever <span class="heart">❤️</span></p></div>
@@ -191,69 +173,58 @@
         <div class="card"><h3>Player9163cd</h3><p>Yaş: 12<br>Ekibin güçlü parçası <span class="heart">❤️</span></p></div>
     </div>
 
-    <h2 class="section-title">STAFF / KADRO</h2>
+    <h2 class="section-title">🛡️ KADRO</h2>
     <div class="grid-container">
-        <div class="card staff-card"><span class="role" style="color:#00ff88;">HELPER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-link">BAŞVURU YAP</a></div>
-        <div class="card staff-card"><span class="role" style="color:#00d4ff;">ACC</span><a href="https://discord.gg/TgJ6v9UC" class="apply-link">BAŞVURU YAP</a></div>
-        <div class="card staff-card"><span class="role" style="color:#ffcc00;">D. REHBER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-link">BAŞVURU YAP</a></div>
-        <div class="card staff-card"><span class="role" style="color:#ffffff;">REHBER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-link">BAŞVURU YAP</a></div>
+        <div class="card"><span class="role" style="color:#ff0000;">HELPER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-link">BAŞVURU</a></div>
+        <div class="card"><span class="role" style="color:#ff4444;">ACC</span><a href="https://discord.gg/TgJ6v9UC" class="apply-link">BAŞVURU</a></div>
+        <div class="card"><span class="role" style="color:#ff8888;">D. REHBER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-link">BAŞVURU</a></div>
+        <div class="card"><span class="role" style="color:#ffffff;">REHBER</span><a href="https://discord.gg/TgJ6v9UC" class="apply-link">BAŞVURU</a></div>
     </div>
 
-    <p class="footer">EST. 2026 // PLAY.CREDOS.QZZ.IO</p>
+    <p class="footer">EST. 2026 // RED EDITION // PLAY.CREDOS.QZZ.IO</p>
 
     <script>
-        // --- GAMER MESH BACKGROUND SCRIPT ---
+        // --- KIRMIZI KAR TANESİ EFEKTİ ---
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        let w, h, particles = [];
+        let w, h, flakes = [];
 
         function init() {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
-            particles = [];
-            for(let i=0; i<60; i++) {
-                particles.push({
+            flakes = [];
+            for(let i=0; i<100; i++) {
+                flakes.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 0.8,
-                    vy: (Math.random() - 0.5) * 0.8
+                    s: Math.random() * 2 + 1,
+                    v: Math.random() * 1 + 0.5,
+                    o: Math.random()
                 });
             }
         }
 
         function draw() {
             ctx.clearRect(0, 0, w, h);
-            ctx.strokeStyle = 'rgba(0, 212, 255, 0.1)';
-            ctx.fillStyle = 'rgba(0, 212, 255, 0.5)';
+            ctx.fillStyle = "rgba(255, 0, 0, 0.5)"; // Kar tanesi rengi (Kırmızımsı beyaz)
             
-            for(let i=0; i<particles.length; i++) {
-                let p = particles[i];
-                p.x += p.vx; p.y += p.vy;
-                if(p.x < 0 || p.x > w) p.vx *= -1;
-                if(p.y < 0 || p.y > h) p.vy *= -1;
-                
+            flakes.forEach(f => {
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
+                // Kar tanesi çizimi (❄ yerine daire ama karlı havayı veriyor)
+                ctx.arc(f.x, f.y, f.s, 0, Math.PI * 2);
                 ctx.fill();
-
-                for(let j=i+1; j<particles.length; j++) {
-                    let p2 = particles[j];
-                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if(dist < 150) {
-                        ctx.lineWidth = 1 - dist/150;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
-            }
+                
+                f.y += f.v;
+                f.x += Math.sin(f.y / 30) * 0.5; // Hafif rüzgar dalgalanması
+                
+                if(f.y > h) { f.y = -10; f.x = Math.random() * w; }
+            });
             requestAnimationFrame(draw);
         }
         window.addEventListener('resize', init);
         init(); draw();
 
-        // OYUNCU SAYISI
+        // SAATLİK OYUNCU SAYISI
         function updateCount() {
             const h = new Date().getHours();
             const d = new Date().getDate();
@@ -271,7 +242,7 @@
 
         function copyIP() { 
             navigator.clipboard.writeText("play.credos.qzz.io"); 
-            alert("Sunucu IP kopyalandı kanka! play.credos.qzz.io"); 
+            alert("IP Kopyalandı! Kırmızı Kar Başladı Kanka!"); 
         }
     </script>
 </body>
