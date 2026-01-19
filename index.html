@@ -3,175 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamer Hub | Discord Red Live</title>
+    <title>Gamer Hub | Canlı Sohbet ve Sesli Oda</title>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    
     <style>
-        /* --- TEMEL AYARLAR --- */
+        /* --- GAMER TEMA AYARLARI --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #050505; color: #dcddde; display: flex; height: 100vh; overflow: hidden; }
+        body { background-color: #050505; color: #dcddde; height: 100vh; overflow: hidden; }
 
-        /* --- SOL MENÜ (SUNUCULAR) --- */
-        .sidebar-servers {
-            width: 72px; background-color: #020202; display: flex; flex-direction: column;
-            align-items: center; padding-top: 15px; border-right: 1px solid #1a1a1a;
+        /* --- 1. GİRİŞ EKRANI (İSİM SEÇME) --- */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #200000 0%, #000 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000;
         }
-        .server-btn {
-            width: 48px; height: 48px; background-color: #1a1a1a; border-radius: 50%;
-            margin-bottom: 10px; cursor: pointer; transition: 0.3s; display: flex;
-            align-items: center; justify-content: center; color: #ff0000; font-weight: bold;
+        .login-box {
+            background: #0f0f0f; padding: 50px; border-radius: 15px;
+            border: 2px solid #ff0000; text-align: center; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
         }
-        .server-btn:hover, .server-btn.active { border-radius: 15px; background-color: #ff0000; color: white; }
+        .login-box h1 { color: #ff0000; margin-bottom: 25px; letter-spacing: 5px; }
+        .login-box input {
+            padding: 15px; width: 280px; background: #1a1a1a; border: 1px solid #333;
+            color: white; border-radius: 8px; outline: none; margin-bottom: 20px; font-size: 16px;
+        }
+        .login-box button {
+            padding: 15px 40px; background: #ff0000; color: white; border: none;
+            border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s;
+        }
+        .login-box button:hover { background: #b30000; transform: scale(1.05); }
 
-        /* --- KANAL LİSTESİ --- */
-        .sidebar-channels {
-            width: 240px; background-color: #0a0a0a; display: flex; flex-direction: column;
-            border-right: 1px solid #1a1a1a;
-        }
-        .channel-header { height: 50px; padding: 15px; font-weight: bold; color: #ff0000; border-bottom: 1px solid #111; }
-        .channel-item {
-            padding: 10px 15px; margin: 2px 8px; border-radius: 5px; cursor: pointer;
-            color: #888; transition: 0.2s; display: flex; align-items: center;
-        }
-        .channel-item:hover { background-color: #1a1a1a; color: #fff; }
-        .channel-item.active { background-color: #2a0505; color: #ff4d4d; font-weight: bold; }
-
-        /* --- ANA İÇERİK ALANI --- */
-        .main-stage { flex-grow: 1; display: flex; flex-direction: column; background-color: #0f0f0f; }
+        /* --- 2. ANA UYGULAMA PANELİ --- */
+        #app { display: none; height: 100vh; width: 100%; }
         
-        /* EKRANLAR (IŞINLANMA MANTIĞI) */
+        /* Sunucu Sütunu */
+        .sidebar-servers { width: 72px; background: #000; display: flex; flex-direction: column; align-items: center; padding-top: 15px; border-right: 1px solid #111; }
+        .server-btn { width: 48px; height: 48px; background: #1a1a1a; border-radius: 50%; margin-bottom: 12px; cursor: pointer; color: #ff0000; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid transparent; transition: 0.3s; }
+        .server-btn.active, .server-btn:hover { border-radius: 15px; background: #ff0000; color: #fff; }
+
+        /* Kanal Sütunu */
+        .sidebar-channels { width: 240px; background: #0a0a0a; border-right: 1px solid #111; }
+        .channel-header { padding: 20px 15px; color: #ff0000; font-weight: bold; border-bottom: 1px solid #111; text-transform: uppercase; font-size: 12px; }
+        .channel-item { padding: 12px 15px; margin: 5px 10px; border-radius: 5px; cursor: pointer; color: #888; transition: 0.2s; font-size: 15px; }
+        .channel-item:hover { background: #1a1a1a; color: #fff; }
+        .channel-item.active { background: #2a0505; color: #ff4d4d; font-weight: bold; }
+
+        /* Ana İçerik Alanı */
+        .main-stage { flex-grow: 1; display: flex; flex-direction: column; background: #0f0f0f; }
         .screen { display: none; height: 100%; flex-direction: column; }
         .screen.active { display: flex; }
 
-        /* SOHBET TASARIMI */
-        .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .msg-box { display: flex; gap: 12px; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; background: #222; border: 2px solid #ff0000; flex-shrink: 0; }
-        .user-name { color: #ff4d4d; font-weight: bold; font-size: 14px; margin-right: 8px; }
-        .msg-text { color: #ccc; font-size: 15px; }
+        /* Sohbet Mesajları */
+        .messages-container { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .message-row { display: flex; gap: 15px; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .avatar { width: 42px; height: 42px; border-radius: 50%; background: #222; border: 2px solid #ff0000; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+        .msg-info { font-weight: bold; color: #ff4d4d; font-size: 14px; margin-bottom: 4px; }
+        .msg-text { color: #dcddde; line-height: 1.4; }
 
-        .chat-input-area { padding: 20px; background: #0f0f0f; }
-        .input-box { background: #1a1a1a; padding: 12px; border-radius: 8px; display: flex; border: 1px solid #222; }
-        .input-box input { background: transparent; border: none; color: white; width: 100%; outline: none; }
-        .btn-send { color: #ff0000; font-weight: bold; cursor: pointer; padding: 0 10px; }
+        /* Mesaj Yazma Alanı */
+        .input-footer { padding: 20px; background: #0f0f0f; }
+        .input-container { background: #1a1a1a; padding: 14px; border-radius: 8px; display: flex; border: 1px solid #222; }
+        .input-container input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 15px; }
+        .send-icon { color: #ff0000; font-weight: bold; cursor: pointer; padding-left: 15px; }
 
-        /* SESLİ SOHBET ODASI (IŞINLANILAN YER) */
+        /* --- 3. SESLİ SOHBET (IŞINLANILAN YER) --- */
         .voice-room { 
-            flex-grow: 1; display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; background: radial-gradient(circle, #2a0000 0%, #050505 100%); 
+            flex-grow: 1; display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; background: radial-gradient(circle, #300000 0%, #050505 100%); 
         }
-        .pulse {
-            width: 120px; height: 120px; background: #ff0000; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 40px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); animation: pulseEffect 2s infinite;
+        .pulse-mic { 
+            width: 140px; height: 140px; background: #ff0000; border-radius: 50%; 
+            display:flex; align-items:center; justify-content:center; font-size:50px;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.6); animation: heartbeat 1.5s infinite; 
         }
-        @keyframes pulseEffect { 0% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 40px rgba(255, 0, 0, 0.8); } 100% { transform: scale(1); } }
-        .voice-users { margin-top: 40px; display: flex; gap: 30px; }
-        .v-user { text-align: center; font-weight: bold; }
-        .v-user .avatar { width: 70px; height: 70px; margin-bottom: 10px; }
-
-        /* Kaydırma Çubuğu */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .voice-users { margin-top: 40px; display: flex; gap: 40px; }
+        .v-user { text-align: center; }
+        .v-user .avatar { width: 80px; height: 80px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar-servers">
-        <div class="server-btn active">G</div>
-        <div class="server-btn">🎮</div>
-        <div class="server-btn">💀</div>
+    <div id="login-screen">
+        <div class="login-box">
+            <h1>GAMER HUB</h1>
+            <input type="text" id="usernameField" placeholder="Oyuncu Adın..." maxlength="12">
+            <br>
+            <button onclick="sistemeGiris()">BAĞLAN</button>
+        </div>
     </div>
 
-    <div class="sidebar-channels">
-        <div class="channel-header">GAMER HUB SERVER</div>
-        <div class="channel-item active" onclick="isınla('chat-page', this)"># genel-chat</div>
-        <div class="channel-item" onclick="isınla('chat-page', this)"># oyun-odasi</div>
-        <div style="margin: 15px 15px 5px; font-size: 11px; color: #444; font-weight: bold;">SESLİ KANALLAR</div>
-        <div class="channel-item" onclick="isınla('voice-page', this)">🔊 SESLİ SOHBET</div>
-    </div>
-
-    <div class="main-stage">
+    <div id="app">
+        <div class="sidebar-servers">
+            <div class="server-btn active">G</div>
+            <div class="server-btn">🎮</div>
+            <div class="server-btn">☠️</div>
+        </div>
         
-        <div id="chat-page" class="screen active">
-            <div class="channel-header" id="chatTitle"># genel-chat</div>
-            <div class="chat-messages" id="messagesDiv">
-                <div class="msg-box">
-                    <div class="avatar"></div>
-                    <div><span class="user-name">Sistem_Bot</span><br><span class="msg-text">Hoş geldin şampiyon! Mesaj yazmaya başla.</span></div>
-                </div>
-            </div>
-            <div class="chat-input-area">
-                <div class="input-box">
-                    <input type="text" id="userInput" placeholder="Mesaj gönder..." autocomplete="off">
-                    <div class="btn-send" onclick="gonder()">GÖNDER</div>
-                </div>
-            </div>
+        <div class="sidebar-channels">
+            <div class="channel-header">Gamer_Hub_v1.0</div>
+            <div class="channel-item active" onclick="isinla('chat-page', this)"># genel-sohbet</div>
+            <div class="channel-item" onclick="isinla('chat-page', this)"># turnuva-duyuru</div>
+            <div style="margin: 20px 15px 5px; color: #444; font-size: 11px; font-weight: bold;">SESLİ KANALLAR</div>
+            <div class="channel-item" onclick="isinla('voice-page', this)">🔊 SESLİ ODA</div>
         </div>
 
-        <div id="voice-page" class="screen">
-            <div class="voice-room">
-                <div class="pulse">🎙️</div>
-                <h1 style="margin-top: 20px; color: #ff0000;">SESLİ SOHBETTE</h1>
-                <p style="color: #666;">Mikrofonun aktif, diğerleri seni duyabiliyor.</p>
-                
-                <div class="voice-users">
-                    <div class="v-user">
-                        <div class="avatar"></div>
-                        <span>Sen</span>
+        <div class="main-stage">
+            
+            <div id="chat-page" class="screen active">
+                <div class="messages-container" id="chatWindow">
                     </div>
-                    <div class="v-user" style="opacity: 0.3;">
-                        <div class="avatar"></div>
-                        <span>Bağlanıyor...</span>
+                <div class="input-footer">
+                    <div class="input-container">
+                        <input type="text" id="msgField" placeholder="Buraya yaz..." autocomplete="off">
+                        <div class="send-icon" onclick="mesajAt()">GÖNDER</div>
                     </div>
                 </div>
-                
-                <button onclick="isınla('chat-page')" style="margin-top: 50px; padding: 12px 30px; background: #ff0000; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">AYRIL</button>
             </div>
-        </div>
 
+            <div id="voice-page" class="screen">
+                <div class="voice-room">
+                    <div class="pulse-mic">🎙️</div>
+                    <h2 style="margin-top:25px; color:#ff0000; letter-spacing: 2px;">IŞINLANMA BAŞARILI: SESLİ ODA</h2>
+                    <p style="color:#888; margin-top:10px;">Şu an bu kanaldaki diğer oyuncuları duyabilirsin.</p>
+                    
+                    <div class="voice-users">
+                        <div class="v-user">
+                            <div class="avatar" id="myVoiceAvatar">SEN</div>
+                            <span id="myVoiceName" style="color:white"></span>
+                        </div>
+                        <div class="v-user" style="opacity: 0.2">
+                            <div class="avatar">?</div>
+                            <span>Bekleniyor...</span>
+                        </div>
+                    </div>
+
+                    <button onclick="isinla('chat-page')" style="background:transparent; border:1px solid #ff0000; color:#ff0000; padding:12px 30px; margin-top:40px; cursor:pointer; border-radius:5px;">KANALDAN AYRIL</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        // EKRANLAR ARASI IŞINLANMA (TELEPORT)
-        function ısınla(sayfaId, el) {
-            // Tüm sayfaları kapat
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            // Seçilen sayfayı aç
-            document.getElementById(sayfaId).classList.add('active');
+        let currentUser = "";
 
-            // Menüdeki seçili hali güncelle
-            if(el) {
-                document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
-                el.classList.add('active');
-                if(sayfaId === 'chat-page') {
-                    document.getElementById('chatTitle').innerText = el.innerText;
-                }
+        // --- FIREBASE AYARLARI (Burayı kendi bilgilerinizle doldurun) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSy...",
+            authDomain: "projeniz.firebaseapp.com",
+            databaseURL: "https://projeniz-rtdb.firebaseio.com",
+            projectId: "projeniz",
+            storageBucket: "projeniz.appspot.com",
+            messagingSenderId: "12345",
+            appId: "1:12345:web:abc"
+        };
+
+        // Firebase'i Başlat
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const messagesRef = db.ref('chat_messages');
+
+        // SİSTEME GİRİŞ YAPMA
+        function sistemeGiris() {
+            const nick = document.getElementById('usernameField').value.trim();
+            if(nick.length >= 3) {
+                currentUser = nick;
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('app').style.display = 'flex';
+                document.getElementById('myVoiceName').innerText = nick;
+            } else {
+                alert("Lütfen en az 3 karakterli bir isim seç!");
             }
         }
 
-        // MESAJ GÖNDERME SİSTEMİ
-        function gonder() {
-            const input = document.getElementById('userInput');
-            const messages = document.getElementById('messagesDiv');
+        // MESAJ GÖNDERME (Firebase'e yazar)
+        function mesajAt() {
+            const box = document.getElementById('msgField');
+            if(box.value.trim() !== "") {
+                messagesRef.push({
+                    sender: currentUser,
+                    text: box.value,
+                    time: new Date().toLocaleTimeString()
+                });
+                box.value = "";
+            }
+        }
+
+        // MESAJLARI GERÇEK ZAMANLI DİNLEME (Başka IP'den gelse bile görürsün)
+        messagesRef.on('child_added', (snapshot) => {
+            const data = snapshot.val();
+            const win = document.getElementById('chatWindow');
             
-            if(input.value.trim() !== "") {
-                const yeniMsg = document.createElement('div');
-                yeniMsg.className = 'msg-box';
-                yeniMsg.innerHTML = `
-                    <div class="avatar" style="border-color: #fff;"></div>
-                    <div><span class="user-name" style="color:#fff;">Gamer_IP_User</span><br><span class="msg-text">${input.value}</span></div>
-                `;
-                messages.appendChild(yeniMsg);
-                
-                // Temizle ve Kaydır
-                input.value = "";
-                messages.scrollTop = messages.scrollHeight;
+            const msgHtml = `
+                <div class="message-row">
+                    <div class="avatar">${data.sender[0].toUpperCase()}</div>
+                    <div>
+                        <div class="msg-info">${data.sender} <span style="color:#444; font-size:10px; font-weight:normal;">${data.time}</span></div>
+                        <div class="msg-text">${data.text}</div>
+                    </div>
+                </div>
+            `;
+            win.innerHTML += msgHtml;
+            win.scrollTop = win.scrollHeight; // Yeni mesaj gelince aşağı kaydır
+        });
+
+        // EKRANLAR ARASI IŞINLANMA
+        function isinla(pageId, element) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            if(element) {
+                document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
+                element.classList.add('active');
             }
         }
 
-        // Enter ile gönderme
-        document.getElementById('userInput').addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') gonder();
+        // Klavye Desteği (Enter tuşu)
+        document.getElementById('msgField').addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') mesajAt();
         });
     </script>
 </body>
