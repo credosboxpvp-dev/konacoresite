@@ -3,64 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamer Hub - Discord Theme</title>
+    <title>Gamer Hub | Discord Red Edition</title>
     <style>
-        /* Genel Ayarlar */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #0a0a0a; color: #e0e0e0; display: flex; height: 100vh; overflow: hidden; }
+        /* --- GENEL TASARIM --- */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+        }
 
-        /* 1. Sol Sunucu Listesi (Dar Sütun) */
+        body { 
+            background-color: #0a0a0a; 
+            color: #dcddde; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* --- 1. SOL SUNUCU LİSTESİ --- */
         .server-sidebar {
-            width: 72px; background-color: #050505; display: flex; flex-direction: column;
-            align-items: center; padding-top: 12px; border-right: 1px solid #222;
+            width: 72px; 
+            background-color: #050505; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            padding-top: 12px; 
+            border-right: 1px solid #1a1a1a;
         }
+
         .server-icon {
-            width: 48px; height: 48px; background-color: #1a1a1a; border-radius: 50%;
-            margin-bottom: 8px; cursor: pointer; transition: 0.3s; display: flex;
-            align-items: center; justify-content: center; border: 2px solid transparent;
+            width: 48px; 
+            height: 48px; 
+            background-color: #1a1a1a; 
+            border-radius: 50%;
+            margin-bottom: 8px; 
+            cursor: pointer; 
+            transition: 0.3s ease; 
+            display: flex;
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold;
+            color: #ff0000;
+            border: 2px solid transparent;
         }
-        .server-icon:hover { border-radius: 15px; background-color: #ff4d4d; border-color: #ff0000; }
-        .server-icon.active { border-radius: 15px; background-color: #ff0000; }
 
-        /* 2. Kanal Listesi (Orta Sütun) */
+        .server-icon:hover { 
+            border-radius: 15px; 
+            background-color: #ff0000; 
+            color: white;
+        }
+
+        .server-icon.active { 
+            border-radius: 15px; 
+            background-color: #ff0000; 
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        /* --- 2. KANAL LİSTESİ --- */
         .channel-sidebar {
-            width: 240px; background-color: #0f0f0f; display: flex; flex-direction: column;
-            border-right: 1px solid #222;
+            width: 240px; 
+            background-color: #0f0f0f; 
+            display: flex; 
+            flex-direction: column;
+            border-right: 1px solid #1a1a1a;
         }
-        .header { height: 50px; padding: 0 15px; display: flex; align-items: center; font-weight: bold; border-bottom: 1px solid #222; color: #ff4d4d; }
-        .channels { padding: 10px; flex-grow: 1; }
-        .channel-link {
-            padding: 8px; margin-bottom: 2px; border-radius: 4px; cursor: pointer;
-            color: #888; display: flex; align-items: center; transition: 0.2s;
-        }
-        .channel-link:hover { background-color: #1a1a1a; color: #fff; }
-        .channel-link.active { background-color: #2a0a0a; color: #ff4d4d; font-weight: bold; }
-        .channel-link::before { content: '# '; margin-right: 8px; color: #555; }
 
-        /* 3. Ana Sohbet Alanı */
-        .chat-main { flex-grow: 1; display: flex; flex-direction: column; background-color: #121212; }
-        .chat-header { height: 50px; padding: 0 20px; display: flex; align-items: center; border-bottom: 1px solid #222; font-weight: bold; }
-        .messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .header { 
+            height: 50px; 
+            padding: 0 15px; 
+            display: flex; 
+            align-items: center; 
+            font-weight: bold; 
+            border-bottom: 1px solid #1a1a1a; 
+            color: #ff0000;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .channels { 
+            padding: 10px; 
+            flex-grow: 1; 
+            overflow-y: auto;
+        }
+
+        .channel-link {
+            padding: 8px 12px; 
+            margin-bottom: 2px; 
+            border-radius: 4px; 
+            cursor: pointer;
+            color: #8e9297; 
+            display: flex; 
+            align-items: center; 
+            transition: 0.2s;
+            font-size: 15px;
+        }
+
+        .channel-link:hover { 
+            background-color: #1a1a1a; 
+            color: #fff; 
+        }
+
+        .channel-link.active { 
+            background-color: #2a0a0a; 
+            color: #ff4d4d; 
+            font-weight: bold; 
+        }
+
+        .channel-link::before { 
+            content: '# '; 
+            margin-right: 8px; 
+            color: #4f545c; 
+            font-size: 18px;
+        }
+
+        /* --- 3. ANA SOHBET ALANI --- */
+        .chat-main { 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            background-color: #121212; 
+        }
+
+        .chat-header { 
+            height: 50px; 
+            padding: 0 20px; 
+            display: flex; 
+            align-items: center; 
+            border-bottom: 1px solid #1a1a1a; 
+            font-weight: bold; 
+            font-size: 16px;
+        }
+
+        .messages { 
+            flex-grow: 1; 
+            padding: 20px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
         
         /* Mesaj Balonları */
-        .msg { display: flex; gap: 15px; }
-        .avatar { width: 40px; height: 40px; background: #333; border-radius: 50%; flex-shrink: 0; border: 1px solid #ff0000; }
-        .msg-content { display: flex; flex-direction: column; }
-        .user-name { font-weight: bold; font-size: 14px; color: #ff4d4d; margin-bottom: 4px; }
-        .text { font-size: 15px; color: #ccc; }
+        .msg { display: flex; gap: 15px; animation: fadeIn 0.3s ease; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Alt Mesaj Yazma Alanı */
-        .input-area { padding: 20px; background: #121212; }
+        .avatar { 
+            width: 40px; 
+            height: 40px; 
+            background: #222; 
+            border-radius: 50%; 
+            flex-shrink: 0; 
+            border: 2px solid #ff0000; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .msg-content { display: flex; flex-direction: column; }
+        
+        .user-name { 
+            font-weight: bold; 
+            font-size: 14px; 
+            color: #ff4d4d; 
+            margin-bottom: 4px; 
+        }
+
+        .text { 
+            font-size: 15px; 
+            color: #dcddde; 
+            line-height: 1.4;
+        }
+
+        /* --- 4. GİRİŞ ALANI (INPUT) --- */
+        .input-area { 
+            padding: 0 20px 20px 20px; 
+            background: #121212; 
+        }
+
         .input-wrapper {
-            background-color: #1a1a1a; padding: 12px; border-radius: 8px;
-            border: 1px solid #333; display: flex; align-items: center;
+            background-color: #1a1a1a; 
+            padding: 12px 15px; 
+            border-radius: 8px;
+            display: flex; 
+            align-items: center;
+            border: 1px solid #222;
+            transition: 0.3s;
         }
+
+        .input-wrapper:focus-within {
+            border-color: #ff0000;
+        }
+
         input {
-            background: transparent; border: none; color: white; width: 100%;
-            outline: none; font-size: 15px;
+            background: transparent; 
+            border: none; 
+            color: white; 
+            width: 100%;
+            outline: none; 
+            font-size: 15px;
         }
-        input::placeholder { color: #555; }
-        .send-btn { color: #ff4d4d; font-weight: bold; cursor: pointer; margin-left: 10px; }
+
+        .send-btn { 
+            color: #ff4d4d; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-left: 15px; 
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .send-btn:hover { 
+            background-color: #ff0000; 
+            color: white; 
+        }
+
+        /* Scrollbar Özelleştirme */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff0000; }
     </style>
 </head>
 <body>
@@ -70,45 +242,85 @@
         <div class="server-icon">🎮</div>
         <div class="server-icon">💀</div>
         <div class="server-icon">🔥</div>
+        <div class="server-icon" style="color: #444; border: 1px dashed #444;">+</div>
     </div>
 
     <div class="channel-sidebar">
-        <div class="header">Gamer Hub</div>
+        <div class="header">GAMER HUB</div>
         <div class="channels">
             <div class="channel-link active">genel-chat</div>
             <div class="channel-link">duyurular</div>
+            <div class="channel-link">turnuvalar</div>
             <div class="channel-link">oyun-rehberi</div>
-            <div class="channel-link">sesli-oda (5/10)</div>
+            <div class="channel-link">destek</div>
+            <div style="margin-top: 20px; color: #444; font-size: 12px; font-weight: bold; padding-left: 10px;">SESLİ KANALLAR</div>
+            <div class="channel-link">Genel Sesli</div>
+            <div class="channel-link">Oyun Odası 1</div>
         </div>
     </div>
 
     <div class="chat-main">
         <div class="chat-header"># genel-chat</div>
         
-        <div class="messages">
+        <div class="messages" id="mesajlarAlani">
             <div class="msg">
-                <div class="avatar"></div>
+                <div class="avatar">GH</div>
                 <div class="msg-content">
-                    <span class="user-name">Admin_Gamer</span>
-                    <span class="text">Selam beyler, yeni gamer temalı web sitemize hoş geldiniz!</span>
-                </div>
-            </div>
-            <div class="msg">
-                <div class="avatar" style="border-color: #888;"></div>
-                <div class="msg-content">
-                    <span class="user-name" style="color: #fff;">Ziyaretçi_01</span>
-                    <span class="text">Kodlar harika görünüyor, ellerine sağlık!</span>
+                    <span class="user-name">Sistem_Bot</span>
+                    <span class="text">Hoş geldin! Burası senin yeni gamer mekanın. İstediğin mesajı aşağıdan gönderebilirsin.</span>
                 </div>
             </div>
         </div>
 
         <div class="input-area">
             <div class="input-wrapper">
-                <input type="text" placeholder="#genel-chat kanalına mesaj gönder...">
-                <span class="send-btn">GÖNDER</span>
+                <input type="text" id="mesajInput" placeholder="#genel-chat kanalına mesaj gönder..." autocomplete="off">
+                <span class="send-btn" id="gonderBtn">GÖNDER</span>
             </div>
         </div>
     </div>
+
+    <script>
+        const gonderBtn = document.getElementById('gonderBtn');
+        const mesajInput = document.getElementById('mesajInput');
+        const mesajlarAlani = document.getElementById('mesajlarAlani');
+
+        // Mesaj Gönderme Fonksiyonu
+        function mesajGonder() {
+            const mesajMetni = mesajInput.value.trim();
+
+            if (mesajMetni !== "") {
+                // Yeni Mesaj Yapısı
+                const yeniMesaj = document.createElement('div');
+                yeniMesaj.classList.add('msg');
+
+                yeniMesaj.innerHTML = `
+                    <div class="avatar">SEN</div>
+                    <div class="msg-content">
+                        <span class="user-name">Gamer_User</span>
+                        <span class="text">${mesajMetni}</span>
+                    </div>
+                `;
+
+                // Ekrana Ekle
+                mesajlarAlani.appendChild(yeniMesaj);
+
+                // Temizle ve Kaydır
+                mesajInput.value = "";
+                mesajlarAlani.scrollTop = mesajlarAlani.scrollHeight;
+            }
+        }
+
+        // Tıklama Olayı
+        gonderBtn.addEventListener('click', mesajGonder);
+
+        // Enter Tuşu Olayı
+        mesajInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                mesajGonder();
+            }
+        });
+    </script>
 
 </body>
 </html>
