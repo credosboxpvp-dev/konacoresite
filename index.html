@@ -3,227 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamer Hub | Canlı Sohbet ve Sesli Oda</title>
+    <title>Discord Clone | Gamer Hub</title>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     
     <style>
-        /* --- GAMER TEMA AYARLARI --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #050505; color: #dcddde; height: 100vh; overflow: hidden; }
+        /* DISCORD RENK PALETİ */
+        :root {
+            --bg-dark: #1e1f22;
+            --bg-sidebar: #2b2d31;
+            --bg-chat: #313338;
+            --bg-input: #383a40;
+            --text-main: #dbdee1;
+            --text-muted: #949ba4;
+            --discord-blurple: #5865f2;
+            --discord-green: #23a559;
+            --discord-red: #f23f42;
+        }
 
-        /* --- 1. GİRİŞ EKRANI (İSİM SEÇME) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'gg sans', 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; display: flex; overflow: hidden; }
+
+        /* GİRİŞ EKRANI */
         #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, #200000 0%, #000 100%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000;
+            position: fixed; inset: 0; background: #313338;
+            display: flex; align-items: center; justify-content: center; z-index: 10000;
         }
-        .login-box {
-            background: #0f0f0f; padding: 50px; border-radius: 15px;
-            border: 2px solid #ff0000; text-align: center; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+        .login-card {
+            background: #2b2d31; padding: 32px; border-radius: 8px; width: 480px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); text-align: center;
         }
-        .login-box h1 { color: #ff0000; margin-bottom: 25px; letter-spacing: 5px; }
-        .login-box input {
-            padding: 15px; width: 280px; background: #1a1a1a; border: 1px solid #333;
-            color: white; border-radius: 8px; outline: none; margin-bottom: 20px; font-size: 16px;
+        .login-card h2 { margin-bottom: 8px; font-size: 24px; }
+        .login-card p { color: var(--text-muted); margin-bottom: 20px; font-size: 16px; }
+        .login-card input {
+            width: 100%; padding: 10px; background: #1e1f22; border: none; 
+            color: white; border-radius: 3px; margin-bottom: 8px; font-size: 16px;
         }
-        .login-box button {
-            padding: 15px 40px; background: #ff0000; color: white; border: none;
-            border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s;
+        .char-count { font-size: 12px; display: block; margin-bottom: 20px; text-align: left; }
+        .login-card button {
+            width: 100%; padding: 12px; background: var(--discord-blurple);
+            color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;
         }
-        .login-box button:hover { background: #b30000; transform: scale(1.05); }
+        .login-card button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* --- 2. ANA UYGULAMA PANELİ --- */
-        #app { display: none; height: 100vh; width: 100%; }
+        /* ANA YAPI */
+        #app { display: none; width: 100%; height: 100%; }
+
+        /* 1. SUNUCU SÜTUNU (En Sol) */
+        .guilds { width: 72px; background: #1e1f22; display: flex; flex-direction: column; align-items: center; padding-top: 12px; gap: 8px; }
+        .guild-icon { width: 48px; height: 48px; background: #313338; border-radius: 50%; display: flex; 
+                      align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+        .guild-icon:hover { border-radius: 15px; background: var(--discord-blurple); }
+        .guild-icon.active { border-radius: 15px; background: var(--discord-blurple); }
+
+        /* 2. KANAL SÜTUNU */
+        .sidebar { width: 240px; background: var(--bg-sidebar); display: flex; flex-direction: column; }
+        .server-name { height: 48px; display: flex; align-items: center; padding: 0 16px; font-weight: bold; 
+                       border-bottom: 1px solid #1e1f22; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .channels { padding: 12px 8px; flex-grow: 1; }
+        .channel-item { padding: 6px 8px; border-radius: 4px; color: var(--text-muted); cursor: pointer; margin-bottom: 2px; }
+        .channel-item:hover { background: #35373c; color: var(--text-main); }
+        .channel-item.active { background: #3f4147; color: white; }
+
+        /* 3. CHAT ALANI */
+        .chat-area { flex-grow: 1; background: var(--bg-chat); display: flex; flex-direction: column; position: relative; }
+        .chat-header { height: 48px; display: flex; align-items: center; padding: 0 16px; font-weight: bold; border-bottom: 1px solid #1e1f22; gap: 10px;}
+        .messages { flex-grow: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; }
         
-        /* Sunucu Sütunu */
-        .sidebar-servers { width: 72px; background: #000; display: flex; flex-direction: column; align-items: center; padding-top: 15px; border-right: 1px solid #111; }
-        .server-btn { width: 48px; height: 48px; background: #1a1a1a; border-radius: 50%; margin-bottom: 12px; cursor: pointer; color: #ff0000; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid transparent; transition: 0.3s; }
-        .server-btn.active, .server-btn:hover { border-radius: 15px; background: #ff0000; color: #fff; }
+        .message { display: flex; gap: 16px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: #5865f2; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: bold;}
+        .msg-content { flex-grow: 1; }
+        .msg-user { color: white; font-weight: 500; font-size: 16px; margin-right: 8px; }
+        .msg-user.admin { color: #f1c40f; }
+        .msg-time { color: var(--text-muted); font-size: 12px; }
+        .msg-text { color: var(--text-main); margin-top: 4px; }
 
-        /* Kanal Sütunu */
-        .sidebar-channels { width: 240px; background: #0a0a0a; border-right: 1px solid #111; }
-        .channel-header { padding: 20px 15px; color: #ff0000; font-weight: bold; border-bottom: 1px solid #111; text-transform: uppercase; font-size: 12px; }
-        .channel-item { padding: 12px 15px; margin: 5px 10px; border-radius: 5px; cursor: pointer; color: #888; transition: 0.2s; font-size: 15px; }
-        .channel-item:hover { background: #1a1a1a; color: #fff; }
-        .channel-item.active { background: #2a0505; color: #ff4d4d; font-weight: bold; }
+        /* 4. ÜYE LİSTESİ */
+        .member-list { width: 240px; background: var(--bg-sidebar); padding: 12px; }
+        .member-list h3 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
 
-        /* Ana İçerik Alanı */
-        .main-stage { flex-grow: 1; display: flex; flex-direction: column; background: #0f0f0f; }
-        .screen { display: none; height: 100%; flex-direction: column; }
-        .screen.active { display: flex; }
+        /* INPUT */
+        .input-wrapper { padding: 0 16px 24px 16px; }
+        .input-box { background: var(--bg-input); padding: 10px 16px; border-radius: 8px; display: flex; align-items: center; }
+        .input-box input { background: transparent; border: none; color: white; flex-grow: 1; outline: none; font-size: 16px; }
 
-        /* Sohbet Mesajları */
-        .messages-container { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .message-row { display: flex; gap: 15px; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .avatar { width: 42px; height: 42px; border-radius: 50%; background: #222; border: 2px solid #ff0000; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-        .msg-info { font-weight: bold; color: #ff4d4d; font-size: 14px; margin-bottom: 4px; }
-        .msg-text { color: #dcddde; line-height: 1.4; }
-
-        /* Mesaj Yazma Alanı */
-        .input-footer { padding: 20px; background: #0f0f0f; }
-        .input-container { background: #1a1a1a; padding: 14px; border-radius: 8px; display: flex; border: 1px solid #222; }
-        .input-container input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 15px; }
-        .send-icon { color: #ff0000; font-weight: bold; cursor: pointer; padding-left: 15px; }
-
-        /* --- 3. SESLİ SOHBET (IŞINLANILAN YER) --- */
-        .voice-room { 
-            flex-grow: 1; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; background: radial-gradient(circle, #300000 0%, #050505 100%); 
-        }
-        .pulse-mic { 
-            width: 140px; height: 140px; background: #ff0000; border-radius: 50%; 
-            display:flex; align-items:center; justify-content:center; font-size:50px;
-            box-shadow: 0 0 50px rgba(255, 0, 0, 0.6); animation: heartbeat 1.5s infinite; 
-        }
-        @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        .voice-users { margin-top: 40px; display: flex; gap: 40px; }
-        .v-user { text-align: center; }
-        .v-user .avatar { width: 80px; height: 80px; margin-bottom: 10px; }
+        .btn-clear { background: var(--discord-red); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; display: none; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
-        <div class="login-box">
-            <h1>GAMER HUB</h1>
-            <input type="text" id="usernameField" placeholder="Oyuncu Adın..." maxlength="12">
-            <br>
-            <button onclick="sistemeGiris()">BAĞLAN</button>
+        <div class="login-card">
+            <h2>Hoş Geldin!</h2>
+            <p>Seni gördüğümüze sevindik!</p>
+            <input type="text" id="nickInp" placeholder="Kullanıcı adı (Min 16 Karakter)" oninput="validate()">
+            <span id="charCount" class="char-count" style="color: var(--discord-red);">Kalan: 16</span>
+            <button id="joinBtn" onclick="enterApp()" disabled>Giriş Yap</button>
         </div>
     </div>
 
     <div id="app">
-        <div class="sidebar-servers">
-            <div class="server-btn active">G</div>
-            <div class="server-btn">🎮</div>
-            <div class="server-btn">☠️</div>
-        </div>
-        
-        <div class="sidebar-channels">
-            <div class="channel-header">Gamer_Hub_v1.0</div>
-            <div class="channel-item active" onclick="isinla('chat-page', this)"># genel-sohbet</div>
-            <div class="channel-item" onclick="isinla('chat-page', this)"># turnuva-duyuru</div>
-            <div style="margin: 20px 15px 5px; color: #444; font-size: 11px; font-weight: bold;">SESLİ KANALLAR</div>
-            <div class="channel-item" onclick="isinla('voice-page', this)">🔊 SESLİ ODA</div>
+        <div class="guilds">
+            <div class="guild-icon active"><b>G</b></div>
+            <div class="guild-icon">+</div>
         </div>
 
-        <div class="main-stage">
-            
-            <div id="chat-page" class="screen active">
-                <div class="messages-container" id="chatWindow">
-                    </div>
-                <div class="input-footer">
-                    <div class="input-container">
-                        <input type="text" id="msgField" placeholder="Buraya yaz..." autocomplete="off">
-                        <div class="send-icon" onclick="mesajAt()">GÖNDER</div>
-                    </div>
+        <div class="sidebar">
+            <div class="server-name">Gamer Hub Sunucusu</div>
+            <div class="channels">
+                <div class="channel-item active"># genel-sohbet</div>
+                <div class="channel-item"># duyurular</div>
+                <div class="channel-item" onclick="alert('Işınlanılıyor...')">🔊 Sesli Oda</div>
+            </div>
+        </div>
+
+        <div class="chat-area">
+            <div class="chat-header">
+                <span style="color: var(--text-muted); font-size: 24px;">#</span> genel-sohbet
+                <button id="adminClear" class="btn-clear" onclick="clearChat()">Chati Temizle</button>
+            </div>
+            <div class="messages" id="msgFlow"></div>
+            <div class="input-wrapper">
+                <div class="input-box">
+                    <input type="text" id="chatInp" placeholder="#genel-sohbet kanalına mesaj gönder">
                 </div>
             </div>
+        </div>
 
-            <div id="voice-page" class="screen">
-                <div class="voice-room">
-                    <div class="pulse-mic">🎙️</div>
-                    <h2 style="margin-top:25px; color:#ff0000; letter-spacing: 2px;">IŞINLANMA BAŞARILI: SESLİ ODA</h2>
-                    <p style="color:#888; margin-top:10px;">Şu an bu kanaldaki diğer oyuncuları duyabilirsin.</p>
-                    
-                    <div class="voice-users">
-                        <div class="v-user">
-                            <div class="avatar" id="myVoiceAvatar">SEN</div>
-                            <span id="myVoiceName" style="color:white"></span>
-                        </div>
-                        <div class="v-user" style="opacity: 0.2">
-                            <div class="avatar">?</div>
-                            <span>Bekleniyor...</span>
-                        </div>
-                    </div>
-
-                    <button onclick="isinla('chat-page')" style="background:transparent; border:1px solid #ff0000; color:#ff0000; padding:12px 30px; margin-top:40px; cursor:pointer; border-radius:5px;">KANALDAN AYRIL</button>
-                </div>
-            </div>
-
+        <div class="member-list">
+            <h3>Çevrimiçi — 1</h3>
+            <div id="selfName" style="color: var(--discord-green);"></div>
         </div>
     </div>
 
     <script>
-        let currentUser = "";
+        let myNick = "";
+        let isAdm = false;
 
-        // --- FIREBASE AYARLARI (Burayı kendi bilgilerinizle doldurun) ---
         const firebaseConfig = {
-            apiKey: "AIzaSy...",
-            authDomain: "projeniz.firebaseapp.com",
-            databaseURL: "https://projeniz-rtdb.firebaseio.com",
-            projectId: "projeniz",
-            storageBucket: "projeniz.appspot.com",
-            messagingSenderId: "12345",
-            appId: "1:12345:web:abc"
+            apiKey: "SENIN_API_KEY",
+            authDomain: "SENIN_PROJE.firebaseapp.com",
+            databaseURL: "https://SENIN_PROJE-default-rtdb.firebaseio.com",
+            projectId: "SENIN_PROJE",
+            storageBucket: "SENIN_PROJE.appspot.com",
+            messagingSenderId: "SAYILAR",
+            appId: "APP_ID"
         };
 
-        // Firebase'i Başlat
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const messagesRef = db.ref('chat_messages');
+        const chatRef = db.ref('discord_clone_chat');
 
-        // SİSTEME GİRİŞ YAPMA
-        function sistemeGiris() {
-            const nick = document.getElementById('usernameField').value.trim();
-            if(nick.length >= 3) {
-                currentUser = nick;
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('app').style.display = 'flex';
-                document.getElementById('myVoiceName').innerText = nick;
+        function validate() {
+            const val = document.getElementById('nickInp').value;
+            const btn = document.getElementById('joinBtn');
+            const count = document.getElementById('charCount');
+            count.innerText = "Kalan: " + Math.max(0, 16 - val.length);
+            if(val.length >= 16) {
+                btn.disabled = false;
+                count.style.color = "#23a559";
             } else {
-                alert("Lütfen en az 3 karakterli bir isim seç!");
+                btn.disabled = true;
+                count.style.color = "#f23f42";
             }
         }
 
-        // MESAJ GÖNDERME (Firebase'e yazar)
-        function mesajAt() {
-            const box = document.getElementById('msgField');
-            if(box.value.trim() !== "") {
-                messagesRef.push({
-                    sender: currentUser,
-                    text: box.value,
-                    time: new Date().toLocaleTimeString()
+        function enterApp() {
+            myNick = document.getElementById('nickInp').value;
+            isAdm = myNick.toLowerCase().includes("admin");
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app').style.display = 'flex';
+            document.getElementById('selfName').innerText = "• " + myNick;
+            if(isAdm) document.getElementById('adminClear').style.display = 'block';
+        }
+
+        function send() {
+            const inp = document.getElementById('chatInp');
+            if(inp.value.trim() !== "") {
+                chatRef.push({
+                    user: myNick,
+                    text: inp.value,
+                    admin: isAdm,
+                    time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
                 });
-                box.value = "";
+                inp.value = "";
             }
         }
 
-        // MESAJLARI GERÇEK ZAMANLI DİNLEME (Başka IP'den gelse bile görürsün)
-        messagesRef.on('child_added', (snapshot) => {
-            const data = snapshot.val();
-            const win = document.getElementById('chatWindow');
-            
-            const msgHtml = `
-                <div class="message-row">
-                    <div class="avatar">${data.sender[0].toUpperCase()}</div>
-                    <div>
-                        <div class="msg-info">${data.sender} <span style="color:#444; font-size:10px; font-weight:normal;">${data.time}</span></div>
+        chatRef.on('child_added', (snap) => {
+            const data = snap.val();
+            const flow = document.getElementById('msgFlow');
+            const isAdminMsg = data.admin ? 'admin' : '';
+            const avatarChar = data.user.charAt(0).toUpperCase();
+
+            flow.innerHTML += `
+                <div class="message">
+                    <div class="avatar" style="background: ${data.admin ? '#f1c40f' : '#5865f2'}">${avatarChar}</div>
+                    <div class="msg-content">
+                        <span class="msg-user ${isAdminMsg}">${data.user}</span>
+                        <span class="msg-time">${data.time}</span>
                         <div class="msg-text">${data.text}</div>
                     </div>
                 </div>
             `;
-            win.innerHTML += msgHtml;
-            win.scrollTop = win.scrollHeight; // Yeni mesaj gelince aşağı kaydır
+            flow.scrollTop = flow.scrollHeight;
         });
 
-        // EKRANLAR ARASI IŞINLANMA
-        function isinla(pageId, element) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            
-            if(element) {
-                document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
-                element.classList.add('active');
+        // CHATİ TEMİZLE (SADECE ADMIN)
+        function clearChat() {
+            if(confirm("Tüm mesajları silmek istiyor musun?")) {
+                chatRef.remove();
             }
         }
 
-        // Klavye Desteği (Enter tuşu)
-        document.getElementById('msgField').addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') mesajAt();
+        // Veritabanı silindiğinde ekranı temizle
+        chatRef.on('value', (snap) => {
+            if(!snap.exists()) {
+                document.getElementById('msgFlow').innerHTML = "";
+            }
         });
+
+        document.getElementById('chatInp').addEventListener('keypress', (e) => { if(e.key === 'Enter') send(); });
     </script>
 </body>
 </html>
